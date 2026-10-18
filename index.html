@@ -1,0 +1,1164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="gpu1.ai — live GPU cloud price comparison. Cheapest H100, A100, RTX 4090, 5090 and more across Vast.ai and RunPod, plus a training-cost calculator and the full build & deploy guide." />
+    <link rel="icon" href="data:," />
+    <title>gpu1.ai — GPU cloud prices, compared</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f3f5f0;
+        --bg-soft: #ecefe7;
+        --panel: #ffffff;
+        --panel-2: #eef2e9;
+        --line: #d8dfd0;
+        --line-strong: #bfcbb6;
+        --ink: #15211a;
+        --muted: #4e6255;
+        --faint: #7d9082;
+        --accent: #4c8a06;
+        --accent-bright: #5da30a;
+        --accent-ink: #ffffff;
+        --accent-dim: rgba(76, 138, 6, 0.09);
+        --amber: #9a6a00;
+        --term-bg: #0c110d;
+        --term-panel: #121813;
+        --term-line: #263329;
+        --term-ink: #dcead9;
+        --term-muted: #8ba48d;
+        --term-accent: #9be15d;
+        --shadow: 0 1px 2px rgba(21, 33, 26, 0.05), 0 8px 24px -12px rgba(21, 33, 26, 0.18);
+        --radius: 10px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          color-scheme: dark;
+          --bg: #090c0a;
+          --bg-soft: #0d110e;
+          --panel: #121712;
+          --panel-2: #171e17;
+          --line: #243026;
+          --line-strong: #334433;
+          --ink: #e9f2ea;
+          --muted: #a3b8a6;
+          --faint: #71856f;
+          --accent: #8fd14f;
+          --accent-bright: #a5e063;
+          --accent-ink: #0e1c04;
+          --accent-dim: rgba(143, 209, 79, 0.1);
+          --amber: #f0b84a;
+          --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px -14px rgba(0, 0, 0, 0.6);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-size: 16px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: var(--accent); }
+      ::selection { background: var(--accent); color: var(--accent-ink); }
+      .wrap { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+
+      /* ---------- top bar ---------- */
+      .topbar {
+        position: sticky; top: 0; z-index: 50;
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+      .topbar-in { display: flex; align-items: center; gap: 28px; height: 58px; }
+      .wordmark { font-weight: 800; font-size: 21px; letter-spacing: -0.02em; color: var(--ink); text-decoration: none; white-space: nowrap; }
+      .wordmark .n { color: var(--accent); }
+      .wordmark .dot { display: inline-block; width: 8px; height: 8px; background: var(--accent); margin-left: 5px; border-radius: 2px; }
+      .topnav { display: flex; gap: 22px; margin-left: auto; }
+      .topnav a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; }
+      .topnav a:hover { color: var(--ink); }
+      .snap-pill {
+        font-family: "JetBrains Mono", monospace; font-size: 11.5px; color: var(--muted);
+        border: 1px solid var(--line); border-radius: 999px; padding: 5px 11px; white-space: nowrap;
+        display: inline-flex; align-items: center; gap: 7px;
+      }
+      .snap-pill .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2.4s infinite; }
+      @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+      @media (prefers-reduced-motion: reduce) {
+        .snap-pill .pulse { animation: none; }
+        html { scroll-behavior: auto; }
+      }
+      .pill-short { display: none; }
+      @media (max-width: 860px) { .topnav { display: none; } .snap-pill { margin-left: auto; } }
+      @media (max-width: 560px) {
+        #snap-pill-text { display: none; }
+        .pill-short { display: inline; }
+        .snap-pill { font-size: 10.5px; padding: 4px 9px; }
+      }
+
+      /* ---------- hero ---------- */
+      .hero { padding-top: 56px; padding-bottom: 10px; }
+      .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 44px; align-items: start; }
+      @media (max-width: 920px) { .hero-grid { grid-template-columns: 1fr; } }
+      .hero h1 { font-size: clamp(34px, 5vw, 54px); line-height: 1.04; letter-spacing: -0.025em; margin: 0 0 18px; font-weight: 800; }
+      .hero h1 .hl { color: var(--accent); }
+      .hero .lede { font-size: 18px; color: var(--muted); margin: 0 0 26px; max-width: 34em; }
+      .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 30px; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        font-weight: 700; font-size: 15px; text-decoration: none;
+        padding: 12px 20px; border-radius: 8px; border: 1px solid transparent; cursor: pointer;
+        font-family: inherit;
+      }
+      .btn-primary { background: var(--accent); color: var(--accent-ink); }
+      .btn-primary:hover { background: var(--accent-bright); }
+      .btn-ghost { background: var(--panel); color: var(--ink); border-color: var(--line-strong); }
+      .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+      .btn-sm { padding: 8px 14px; font-size: 13.5px; border-radius: 7px; }
+      .stat-row { display: flex; flex-wrap: wrap; border-top: 1px solid var(--line); }
+      .stat { padding: 14px 22px 4px 0; margin-right: 22px; }
+      .stat b { display: block; font-size: 22px; letter-spacing: -0.01em; font-family: "JetBrains Mono", monospace; font-weight: 700; }
+      .stat span { font-size: 12.5px; color: var(--faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+
+      /* terminal board */
+      .term {
+        background: var(--term-bg); border: 1px solid var(--term-line); border-radius: 12px;
+        box-shadow: var(--shadow); overflow: hidden; color: var(--term-ink);
+      }
+      .term-head {
+        display: flex; align-items: center; gap: 8px; padding: 11px 14px;
+        border-bottom: 1px solid var(--term-line); background: var(--term-panel);
+        font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--term-muted);
+      }
+      .term-head .td { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+      .term-head .t { margin-left: 6px; }
+      .term-body { padding: 14px 16px 10px; font-family: "JetBrains Mono", monospace; font-size: 13px; }
+      .term-row { display: flex; align-items: baseline; gap: 10px; padding: 5px 0; }
+      .term-row .g { font-weight: 700; min-width: 92px; }
+      .term-row .dots { flex: 1; border-bottom: 1px dotted #33463a; transform: translateY(-3px); min-width: 12px; }
+      .term-row .p { color: var(--term-muted); white-space: nowrap; }
+      .term-row .p b { color: var(--term-ink); font-weight: 500; }
+      .term-row .best { color: var(--term-accent); font-weight: 700; white-space: nowrap; }
+      .term-foot { padding: 10px 16px 14px; font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--term-muted); border-top: 1px solid var(--term-line); }
+      @media (max-width: 560px) {
+        .term-body { font-size: 12px; padding: 12px 12px 8px; }
+        .term-row { flex-wrap: wrap; row-gap: 0; }
+        .term-row .g { min-width: 76px; }
+        .term-row .dots { display: none; }
+        .term-row .p { order: 3; flex: 0 0 100%; padding-left: 86px; font-size: 11.5px; }
+        .term-row .best { margin-left: auto; }
+      }
+
+      /* ---------- sections ---------- */
+      section { padding-top: 52px; padding-bottom: 8px; }
+      .sec-head { max-width: 46em; margin-bottom: 24px; }
+      .sec-head h2 { font-size: clamp(25px, 3.4vw, 33px); letter-spacing: -0.02em; margin: 0 0 8px; font-weight: 800; }
+      .sec-head p { color: var(--muted); margin: 0; font-size: 16.5px; }
+
+      /* cheapest cards */
+      .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+      @media (max-width: 1020px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 540px) { .cards { grid-template-columns: 1fr; } }
+      .card {
+        background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 6px;
+      }
+      .card .gpu-line { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+      .card .gpu-name { font-weight: 800; font-size: 17px; letter-spacing: -0.01em; }
+      .chip {
+        font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 700;
+        background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 2px 7px; color: var(--muted); white-space: nowrap;
+      }
+      .card .price { font-family: "JetBrains Mono", monospace; font-size: 30px; font-weight: 700; letter-spacing: -0.02em; margin-top: 4px; }
+      .card .price small { font-size: 13px; color: var(--faint); font-weight: 500; }
+      .card .where { font-size: 13px; color: var(--muted); }
+      .card .alt { font-size: 13px; color: var(--faint); }
+      .save-badge {
+        display: inline-block; font-family: "JetBrains Mono", monospace; font-size: 11.5px; font-weight: 700;
+        color: var(--accent); background: var(--accent-dim); border-radius: 5px; padding: 3px 8px; margin-top: 2px; align-self: flex-start;
+      }
+      .card .btn { margin-top: auto; justify-content: center; }
+      .card .spacer { flex: 1; min-height: 4px; }
+    </style>
+    <style>
+      /* ---------- controls + tables ---------- */
+      .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+      .controls input[type="search"], .controls select {
+        font: inherit; font-size: 14.5px; color: var(--ink); background: var(--panel);
+        border: 1px solid var(--line-strong); border-radius: 8px; padding: 9px 12px;
+      }
+      .controls input[type="search"] { min-width: 210px; flex: 0 1 300px; }
+      .controls label { font-size: 13px; font-weight: 600; color: var(--muted); }
+      .table-shell { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+      table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+      thead th {
+        text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--faint);
+        padding: 12px 16px; border-bottom: 1px solid var(--line); background: var(--panel-2); font-weight: 700; white-space: nowrap;
+      }
+      tbody td { padding: 13px 16px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+      tbody tr:last-child td { border-bottom: none; }
+      tbody tr:hover { background: var(--accent-dim); }
+      td.num, th.num { text-align: right; font-family: "JetBrains Mono", monospace; white-space: nowrap; }
+      td.num { font-size: 14px; }
+      .gpu-cell { font-weight: 700; white-space: nowrap; }
+      .best-price { color: var(--accent); font-weight: 700; }
+      .prov-tag { display: block; font-size: 11px; color: var(--faint); font-weight: 600; font-family: "Archivo", sans-serif; }
+      .na { color: var(--faint); }
+      .rel-good { color: var(--accent); font-weight: 700; }
+      .rel-mid { color: var(--amber); font-weight: 700; }
+      .cpu-cell { max-width: 210px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; color: var(--muted); }
+      @media (max-width: 760px) {
+        .table-shell { background: transparent; border: none; box-shadow: none; overflow: visible; }
+        table, tbody, tr, td { display: block; width: 100%; }
+        thead { display: none; }
+        tbody tr { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 10px; padding: 10px 4px; box-shadow: var(--shadow); }
+        tbody td { border-bottom: none; padding: 5px 14px; display: flex; justify-content: space-between; align-items: baseline; gap: 14px; text-align: right; }
+        tbody td::before { content: attr(data-label); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--faint); font-weight: 700; text-align: left; flex: none; }
+        tbody td.gpu-cell { font-size: 16px; }
+        tbody td.gpu-cell::before { content: ""; }
+        tbody td.action-cell { justify-content: flex-end; }
+        tbody td.action-cell::before { content: ""; }
+        .cpu-cell { max-width: none; white-space: normal; }
+      }
+      .table-note { font-size: 13px; color: var(--faint); margin-top: 10px; }
+
+      /* tabs */
+      .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+      .tab {
+        font: inherit; font-weight: 700; font-size: 14px; cursor: pointer;
+        background: var(--panel); color: var(--muted); border: 1px solid var(--line-strong);
+        border-radius: 999px; padding: 8px 16px;
+      }
+      .tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+      /* ---------- calculator ---------- */
+      .calc-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 16px; align-items: start; }
+      @media (max-width: 860px) { .calc-grid { grid-template-columns: 1fr; } }
+      .calc-panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
+      .calc-panel h3 { margin: 0 0 14px; font-size: 16px; letter-spacing: -0.01em; }
+      .field { margin-bottom: 16px; }
+      .field label { display: block; font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.05em; }
+      .field select {
+        font: inherit; width: 100%; color: var(--ink); background: var(--bg-soft);
+        border: 1px solid var(--line-strong); border-radius: 8px; padding: 10px 12px; font-size: 15px;
+      }
+      .seg { display: flex; gap: 6px; flex-wrap: wrap; }
+      .seg button {
+        font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 14px; cursor: pointer;
+        background: var(--bg-soft); color: var(--muted); border: 1px solid var(--line-strong); border-radius: 8px; padding: 8px 14px;
+      }
+      .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+      input[type="range"] { width: 100%; accent-color: var(--accent); }
+      .hours-out { font-family: "JetBrains Mono", monospace; font-weight: 700; color: var(--ink); }
+      .presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+      .preset {
+        font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; text-align: left;
+        background: var(--accent-dim); color: var(--ink); border: 1px solid var(--line);
+        border-radius: 8px; padding: 8px 12px;
+      }
+      .preset:hover { border-color: var(--accent); }
+      .preset b { color: var(--accent); }
+      .cost-row { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+      .cost-row:last-of-type { border-bottom: none; }
+      .cost-row .who { font-weight: 700; }
+      .cost-row .who small { display: block; font-weight: 500; color: var(--faint); font-size: 12.5px; }
+      .cost-row .amt { font-family: "JetBrains Mono", monospace; font-size: 21px; font-weight: 700; white-space: nowrap; }
+      .cost-row .amt.win { color: var(--accent); }
+      .rvb { margin-top: 4px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; font-size: 14.5px; }
+      .rvb b { color: var(--accent); }
+      .rvb input[type="number"] { width: 104px; font-family: "JetBrains Mono", monospace; font-size: 14px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line-strong); background: var(--panel); color: var(--ink); }
+
+      /* ---------- providers ---------- */
+      .prov-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      @media (max-width: 860px) { .prov-grid { grid-template-columns: 1fr; } }
+      .prov { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px; display: flex; flex-direction: column; }
+      .prov h3 { margin: 0 0 4px; font-size: 20px; letter-spacing: -0.01em; }
+      .prov .tagline { color: var(--muted); margin: 0 0 14px; font-size: 14.5px; }
+      .prov ul { margin: 0 0 16px; padding-left: 18px; color: var(--muted); font-size: 14.5px; }
+      .prov ul li { margin-bottom: 6px; }
+      .prov ul li b { color: var(--ink); }
+      .prov .earn { font-size: 13px; background: var(--accent-dim); border-radius: 8px; padding: 10px 12px; color: var(--ink); margin-bottom: 16px; }
+      .prov .btn { margin-top: auto; justify-content: center; }
+      .roadmap { margin-top: 14px; font-size: 14px; color: var(--muted); background: var(--panel); border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 14px 18px; }
+      .roadmap b { color: var(--ink); }
+
+      /* ---------- math box ---------- */
+      .math-box {
+        background: var(--term-bg); color: var(--term-ink); border-radius: 12px; padding: 22px;
+        font-family: "JetBrains Mono", monospace; font-size: 14px; border: 1px solid var(--term-line);
+        overflow-x: auto;
+      }
+      .math-box .line { padding: 4px 0; white-space: nowrap; }
+      @media (max-width: 640px) { .math-box .line { white-space: normal; } }
+      .math-box .c { color: var(--term-muted); }
+      .math-box .r { color: var(--term-accent); font-weight: 700; }
+
+      /* ---------- deploy ---------- */
+      .arch { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; margin-bottom: 30px; }
+      .arch .node {
+        flex: 1 1 150px; background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--radius);
+        padding: 12px 14px; font-size: 13.5px;
+      }
+      .arch .node b { display: block; font-size: 14.5px; margin-bottom: 2px; }
+      .arch .node span { color: var(--muted); }
+      .arch .arrow { align-self: center; color: var(--accent); font-weight: 800; font-size: 18px; }
+      @media (max-width: 700px) { .arch .arrow { transform: rotate(90deg); flex: 0 0 100%; text-align: center; } }
+      .steps { counter-reset: step; display: flex; flex-direction: column; gap: 26px; }
+      .step { display: grid; grid-template-columns: 40px 1fr; gap: 16px; min-width: 0; }
+      @media (max-width: 560px) { .step { grid-template-columns: 1fr; gap: 8px; } }
+      .step-num {
+        counter-increment: step; width: 40px; height: 40px; border-radius: 50%;
+        background: var(--accent); color: var(--accent-ink); font-weight: 800; font-size: 17px;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .step-num::before { content: counter(step); }
+      .step-body { min-width: 0; }
+      .step h3 { margin: 6px 0 6px; font-size: 17.5px; letter-spacing: -0.01em; }
+      .step p { color: var(--muted); margin: 0 0 10px; font-size: 15px; }
+      .step p b, .step li b { color: var(--ink); }
+      .step ul { color: var(--muted); font-size: 15px; margin: 0 0 10px; padding-left: 18px; }
+      .step li { margin-bottom: 4px; }
+      code.inline { font-family: "JetBrains Mono", monospace; font-size: 0.86em; background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; color: var(--ink); white-space: nowrap; }
+      .codeblock { position: relative; margin: 14px 0 6px; }
+      .codeblock pre {
+        background: var(--term-bg); color: var(--term-ink); border: 1px solid var(--term-line); border-radius: 10px;
+        padding: 18px 16px 16px; overflow-x: auto; font-family: "JetBrains Mono", monospace; font-size: 12.8px; line-height: 1.6; margin: 0;
+      }
+      .codeblock .fname {
+        position: absolute; top: 0; left: 14px; transform: translateY(-50%);
+        background: var(--accent); color: var(--accent-ink); font-family: "JetBrains Mono", monospace;
+        font-size: 11px; font-weight: 700; border-radius: 5px; padding: 2px 9px; z-index: 1;
+      }
+      .copy-btn {
+        position: absolute; top: 10px; right: 10px; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+        background: var(--term-panel); color: var(--term-ink); border: 1px solid var(--term-line); border-radius: 6px; padding: 5px 10px; z-index: 1;
+      }
+      .copy-btn:hover { border-color: var(--term-accent); color: var(--term-accent); }
+      .checklist { list-style: none; padding: 0; margin: 0; }
+      .checklist li { padding: 7px 0 7px 30px; position: relative; color: var(--muted); font-size: 15px; border-bottom: 1px solid var(--line); }
+      .checklist li:last-child { border-bottom: none; }
+      .checklist li::before {
+        content: ""; position: absolute; left: 2px; top: 10px; width: 15px; height: 15px;
+        border: 2px solid var(--accent); border-radius: 4px;
+      }
+      .checklist li b { color: var(--ink); }
+
+      /* ---------- disclosure / footer ---------- */
+      .disclosure { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 22px; color: var(--muted); font-size: 14.5px; }
+      .disclosure b { color: var(--ink); }
+      footer { margin-top: 60px; border-top: 1px solid var(--line); padding: 26px 0 40px; color: var(--faint); font-size: 13.5px; }
+      footer .f-in { display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: space-between; }
+      footer a { color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap topbar-in">
+        <a class="wordmark" href="#top">gpu<span class="n">1</span>.ai<span class="dot"></span></a>
+        <nav class="topnav">
+          <a href="#prices">Prices</a>
+          <a href="#offers">Live offers</a>
+          <a href="#calculator">Calculator</a>
+          <a href="#providers">Providers</a>
+          <a href="#deploy">Deploy guide</a>
+        </nav>
+        <span class="snap-pill"><span class="pulse"></span><span id="snap-pill-text">Snapshot · Oct 18, 2026 · 3:52 PM EDT</span><span class="pill-short">Oct 18 · 3:52 PM EDT</span></span>
+      </div>
+    </header>
+
+    <main id="top">
+      <div class="hero wrap">
+        <div class="hero-grid">
+          <div>
+            <h1>The cheapest GPU in the cloud, <span class="hl">found for you.</span></h1>
+            <p class="lede">gpu1.ai tracks live rental prices for the GPUs people actually train and serve models on — across Vast.ai's marketplace and RunPod — normalized per GPU, per hour, so an 8-GPU rig and a single card compare fairly.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="#prices">See today's prices</a>
+              <a class="btn btn-ghost" href="#deploy">Build &amp; deploy this site</a>
+            </div>
+            <div class="stat-row">
+              <div class="stat"><b>13</b><span>GPUs tracked</span></div>
+              <div class="stat"><b>342</b><span>Vast.ai offers sampled</span></div>
+              <div class="stat"><b>2</b><span>Providers compared</span></div>
+              <div class="stat"><b>$0.12</b><span>Cheapest GPU/hr</span></div>
+            </div>
+          </div>
+          <div class="term" aria-label="Cheapest price per GPU at snapshot time">
+            <div class="term-head">
+              <span class="td" style="background:#e0655f"></span>
+              <span class="td" style="background:#e8b84b"></span>
+              <span class="td" style="background:#7ac74f"></span>
+              <span class="t">gpu1 — cheapest per GPU, USD/hr</span>
+            </div>
+            <div class="term-body" id="term-board"></div>
+            <div class="term-foot" id="term-foot"></div>
+          </div>
+        </div>
+      </div>
+
+      <section class="wrap" id="cheapest">
+        <div class="sec-head">
+          <h2>Cheapest right now</h2>
+          <p>The four GPUs people ask about most, at the snapshot below. Marketplace prices move constantly — the deploy guide further down wires this exact page to refresh itself hourly.</p>
+        </div>
+        <div class="cards" id="cheapest-cards"></div>
+      </section>
+
+      <section class="wrap" id="prices">
+        <div class="sec-head">
+          <h2>Full price comparison</h2>
+          <p>Every price is per GPU per hour. Vast.ai figures come from live marketplace offers (cheapest and median); RunPod shows its current lowest available rate. “Best” is whichever provider wins that row — and that's where the Rent button points.</p>
+        </div>
+        <div class="controls">
+          <input type="search" id="gpu-search" placeholder="Search GPUs — try H100 or 4090" aria-label="Search GPUs" />
+          <label for="vram-filter">Min VRAM</label>
+          <select id="vram-filter">
+            <option value="0">Any</option>
+            <option value="24">24 GB+</option>
+            <option value="40">40 GB+</option>
+            <option value="80">80 GB+</option>
+            <option value="140">140 GB+</option>
+          </select>
+          <label for="sort-sel">Sort</label>
+          <select id="sort-sel">
+            <option value="best">Best price, low to high</option>
+            <option value="vram">VRAM, high to low</option>
+            <option value="name">Name A to Z</option>
+          </select>
+        </div>
+        <div class="table-shell">
+          <table>
+            <thead>
+              <tr>
+                <th>GPU</th><th class="num">VRAM</th><th class="num">Vast.ai from</th>
+                <th class="num">Vast.ai median</th><th class="num">RunPod from</th>
+                <th class="num">Best</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="price-rows"></tbody>
+          </table>
+        </div>
+        <p class="table-note" id="price-note"></p>
+      </section>
+
+      <section class="wrap" id="offers">
+        <div class="sec-head">
+          <h2>Inside the marketplace</h2>
+          <p>The actual cheapest Vast.ai machines behind the headline numbers, sorted by per-GPU price. Watch the trade-off the headline hides: the rock-bottom offer sometimes sits on a host with a lower reliability score — the table note gives each GPU's “reliable floor”, the cheapest offer from a host rated 98% or better.</p>
+        </div>
+        <div class="tabs" id="offer-tabs" role="tablist" aria-label="Choose a GPU"></div>
+        <div class="table-shell">
+          <table>
+            <thead>
+              <tr>
+                <th class="num">$/GPU/hr</th><th class="num">Total $/hr</th><th class="num">GPUs</th>
+                <th>Location</th><th class="num">Reliability</th><th>Host CPU</th>
+                <th class="num">RAM</th><th class="num">Disk</th><th class="num">Down / Up Mbps</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="offer-rows"></tbody>
+          </table>
+        </div>
+        <p class="table-note" id="offer-note"></p>
+      </section>
+
+      <section class="wrap" id="calculator">
+        <div class="sec-head">
+          <h2>What will your run cost?</h2>
+          <p>Pick a workload — or dial in your own GPU, count, and hours — and see the bill on each provider at snapshot prices. Then check the rent-vs-buy line before you reach for a credit card.</p>
+        </div>
+        <div class="presets" id="presets"></div>
+        <div class="calc-grid">
+          <div class="calc-panel">
+            <h3>Your run</h3>
+            <div class="field">
+              <label for="calc-gpu">GPU</label>
+              <select id="calc-gpu"></select>
+            </div>
+            <div class="field">
+              <label>GPU count</label>
+              <div class="seg" id="calc-count">
+                <button type="button" data-n="1" aria-pressed="true">1</button>
+                <button type="button" data-n="2" aria-pressed="false">2</button>
+                <button type="button" data-n="4" aria-pressed="false">4</button>
+                <button type="button" data-n="8" aria-pressed="false">8</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="calc-hours">Hours: <span class="hours-out" id="hours-out">100</span></label>
+              <input type="range" id="calc-hours" min="1" max="720" value="100" />
+            </div>
+            <div class="rvb" id="rvb"></div>
+          </div>
+          <div class="calc-panel">
+            <h3>The bill</h3>
+            <div id="cost-rows"></div>
+            <p class="table-note" style="margin-top:14px">Best case = the cheapest single offer at snapshot; it may be gone by the time you click. Typical = median of live offers — the safer planning number. Storage, egress, and your own time aren't included, because they're never included in anyone's headline price either.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap" id="providers">
+        <div class="sec-head">
+          <h2>The providers, honestly</h2>
+          <p>Two very different animals. gpu1.ai links to both through affiliate programs — disclosed in plain sight, because a comparison site you can't trust is worth nothing.</p>
+        </div>
+        <div class="prov-grid">
+          <article class="prov">
+            <h3>Vast.ai</h3>
+            <p class="tagline">A marketplace of independent GPU hosts bidding for your job.</p>
+            <ul>
+              <li><b>Cheapest headline prices anywhere</b> — hosts compete, so a 4090 dips to about $0.38/GPU/hr and an H100 to $1.34.</li>
+              <li><b>Quality varies by host.</b> Filter by the reliability score; the cheapest offer isn't always the one that finishes your training run.</li>
+              <li><b>Best for:</b> batch jobs, fine-tuning, experiments — anything checkpointed that can survive a host hiccup.</li>
+            </ul>
+            <p class="earn">How gpu1.ai earns: Vast.ai pays 3% of everything you spend, for the life of your account. Your price doesn't change — the cut comes out of their side.</p>
+            <a class="btn btn-primary" href="https://cloud.vast.ai/?ref_id=751418" target="_blank" rel="noopener sponsored">Rent on Vast.ai</a>
+          </article>
+          <article class="prov">
+            <h3>RunPod</h3>
+            <p class="tagline">A managed GPU cloud — Secure Cloud datacenters plus a Community Cloud.</p>
+            <ul>
+              <li><b>Predictable availability.</b> A fixed rate card instead of a bidding war; an H100 SXM is $2.69/hr at snapshot.</li>
+              <li><b>Per-second billing</b> on pods, one-click templates, persistent volumes.</li>
+              <li><b>Best for:</b> inference servers and long-running pods where “is it still up?” matters more than the last 20 cents.</li>
+            </ul>
+            <p class="earn">How gpu1.ai earns: new accounts through this link get a $5–$500 credit bonus, and gpu1.ai earns credits too. A 12% cash affiliate tier unlocks after 25 paying referrals.</p>
+            <a class="btn btn-primary" href="https://runpod.io?ref=aadmljc2" target="_blank" rel="noopener sponsored">Get the RunPod credit bonus</a>
+          </article>
+        </div>
+        <p class="roadmap"><b>On the roadmap:</b> Lambda, CoreWeave, Vultr, and DigitalOcean rate cards join as curated rows next. Fixed-price clouds don't expose live-offer APIs the way a marketplace does, so their published rates get verified by hand before they enter the table.</p>
+      </section>
+
+      <section class="wrap" id="model">
+        <div class="sec-head">
+          <h2>How this site makes money</h2>
+          <p>No ads-first nonsense, no selling data. One engine: affiliate revenue from people who were going to rent a GPU anyway and found a cheaper one here.</p>
+        </div>
+        <div class="math-box" aria-label="Illustrative affiliate math">
+          <div class="line"><span class="c"># Illustrative — assumptions stated, not a promise</span></div>
+          <div class="line">100 active referred users × $1,000/mo GPU spend = $100,000/mo flowing through the links</div>
+          <div class="line">× 3% lifetime affiliate cut (Vast.ai) → <span class="r">$3,000/mo, recurring</span></div>
+          <div class="line"><span class="c"># Referrals stack: every month's new users add to every previous month's base.</span></div>
+          <div class="line"><span class="c"># Later layers: sponsored placements (month 6+), a pricing-data API (year 2).</span></div>
+        </div>
+      </section>
+
+      <section class="wrap" id="deploy">
+        <div class="sec-head">
+          <h2>Host &amp; deploy it: the full runbook</h2>
+          <p>This page is the entire site — one static HTML file. In production it reads a <code class="inline">prices.json</code> file that a GitHub Action refreshes hourly from the two provider APIs; every refresh commits, and every commit auto-deploys on Cloudflare Pages. Total running cost: $0. Here is the exact path from this preview to gpu1.ai live.</p>
+        </div>
+
+        <div class="arch" aria-label="Architecture">
+          <div class="node"><b>GitHub repo</b><span>bubeamos/gpu1.ai — index.html, scripts/, prices.json</span></div>
+          <div class="arrow">→</div>
+          <div class="node"><b>GitHub Actions cron</b><span>Hourly: fetch_prices.py pulls both APIs, commits prices.json</span></div>
+          <div class="arrow">→</div>
+          <div class="node"><b>Cloudflare Pages</b><span>Auto-deploys every push to main — no build step</span></div>
+          <div class="arrow">→</div>
+          <div class="node"><b>gpu1.ai</b><span>Custom domain on Pages, HTTPS by default</span></div>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h3>Create the repo and add the files</h3>
+              <p>Create a public repo named <b>gpu1.ai</b> under your GitHub account (same flow as mtls.ai — and make sure the “Meta Muse AI” GitHub App has this repo selected, the way you fixed it last time). The repo holds exactly four things:</p>
+              <ul>
+                <li><code class="inline">index.html</code> — this page. In the production copy the prices load from prices.json (step 3); everything else is identical.</li>
+                <li><code class="inline">scripts/fetch_prices.py</code> — the fetcher in step 2.</li>
+                <li><code class="inline">.github/workflows/prices.yml</code> — the hourly cron in step 2.</li>
+                <li><code class="inline">prices.json</code> — generated by the script; you commit the first one by hand.</li>
+              </ul>
+              <div class="codeblock">
+                <span class="fname">terminal</span>
+                <button class="copy-btn" type="button">Copy</button>
+                <pre>gh repo create gpu1.ai --public --clone
+cd gpu1.ai
+mkdir -p scripts .github/workflows
+# drop index.html in the root, and the two files from step 2 in place
+python3 scripts/fetch_prices.py        # writes the first prices.json
+git add -A &amp;&amp; git commit -m "gpu1.ai v1: comparison table + price fetcher"
+git push</pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h3>Add the price fetcher and the hourly Action</h3>
+              <p>Both APIs are public and need <b>no keys</b>. This is the production form of the spike script, extended with RunPod and per-GPU normalization — an 8×H100 rig's sticker price is divided by 8 so rows compare fairly. Two gotchas from the spike are baked in: Vast.ai's <code class="inline">gpu_name</code> uses spaces (“RTX 4090”, not RTX_4090), and extra query params like <code class="inline">limit</code> make its API return 400, so the plain query is the reliable form.</p>
+              <div class="codeblock">
+                <span class="fname">scripts/fetch_prices.py</span>
+                <button class="copy-btn" type="button">Copy</button>
+                <pre>#!/usr/bin/env python3
+"""gpu1.ai price fetcher — writes prices.json next to index.html.
+Sources (both public, no auth):
+  Vast.ai  GET  cloud.vast.ai/api/v0/bundles/?q=&lt;json&gt;   (gpu_name uses SPACES)
+  RunPod   POST api.runpod.io/graphql                     (gpuTypes.lowestPrice)
+All prices normalized to USD per GPU per hour."""
+import json, statistics, urllib.request, urllib.parse
+from datetime import datetime, timezone
+
+VAST = "https://cloud.vast.ai/api/v0/bundles/"
+HEAD = {"User-Agent": "gpu1.ai/1.0"}
+GPUS = ["B200", "H200", "H100 SXM", "RTX 5090", "RTX 4090", "RTX 3090",
+        "RTX 3090 Ti", "L40S", "RTX A6000", "A40", "L4"]
+VRAM = {"B200": 180, "H200": 141, "H100 SXM": 80, "RTX 5090": 32, "RTX 4090": 24,
+        "RTX 3090": 24, "RTX 3090 Ti": 24, "L40S": 48, "RTX A6000": 48, "A40": 48, "L4": 24}
+RUNPOD_NAME = {"H200": "H200 SXM", "A100 80GB": "A100 SXM", "A100 40GB": "A100 SXM 40GB"}
+
+def vast_offers(name):
+    q = {"gpu_name": {"eq": name}, "rentable": {"eq": True}, "rented": {"eq": False}}
+    url = VAST + "?" + urllib.parse.urlencode({"q": json.dumps(q)})  # q only — extra params 400
+    with urllib.request.urlopen(urllib.request.Request(url, headers=HEAD), timeout=40) as r:
+        return json.load(r).get("offers", [])
+
+def vast_row(offers):
+    per = sorted(o["dph_total"] / max(o.get("num_gpus", 1), 1) for o in offers if o.get("dph_total"))
+    if not per:
+        return None
+    best = min(offers, key=lambda o: o["dph_total"] / max(o.get("num_gpus", 1), 1))
+    rel = [o for o in offers if (o.get("reliability2") or 0) &gt;= 0.98]
+    return {"min": round(per[0], 3), "median": round(statistics.median(per), 3),
+            "offers": len(offers), "loc": best.get("geolocation"),
+            "reliableMin": round(min(o["dph_total"] / max(o.get("num_gpus", 1), 1) for o in rel), 3) if rel else None}
+
+def runpod_lowest():
+    body = json.dumps({"operationName": "GpuTypes", "query":
+        "query GpuTypes { gpuTypes { displayName lowestPrice(input:{gpuCount:1}) { uninterruptablePrice } } }"}).encode()
+    req = urllib.request.Request("https://api.runpod.io/graphql", data=body,
+        headers={**HEAD, "Content-Type": "application/json", "apollo-require-preflight": "true"})
+    with urllib.request.urlopen(req, timeout=40) as r:
+        types = json.load(r)["data"]["gpuTypes"]
+    return {t["displayName"]: (t.get("lowestPrice") or {}).get("uninterruptablePrice") for t in types}
+
+def main():
+    rp = runpod_lowest()
+    rows = []
+    for name in GPUS:
+        v = vast_row(vast_offers(name))
+        if v:
+            rows.append({"gpu": name, "vram": VRAM[name], "vast": v,
+                         "runpod": rp.get(RUNPOD_NAME.get(name, name))})
+    for disp, vram in [("A100 80GB", 80), ("A100 40GB", 40)]:  # one API name, two cards — split by VRAM
+        offers = [o for o in vast_offers("A100 SXM4")
+                  if abs(round((o.get("gpu_ram") or 0) / 1024) - vram) &lt;= 4]
+        v = vast_row(offers)
+        if v:
+            rows.append({"gpu": disp, "vram": vram, "vast": v, "runpod": rp.get(RUNPOD_NAME[disp])})
+    out = {"fetchedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "rows": rows}
+    with open("prices.json", "w") as f:
+        json.dump(out, f, indent=1)
+    print(f"prices.json: {len(rows)} GPUs at {out['fetchedAt']}")
+
+if __name__ == "__main__":
+    main()</pre>
+              </div>
+              <div class="codeblock">
+                <span class="fname">.github/workflows/prices.yml</span>
+                <button class="copy-btn" type="button">Copy</button>
+                <pre>name: refresh-prices
+on:
+  schedule:
+    - cron: "17 * * * *"        # hourly, off the :00 rush
+  workflow_dispatch:            # refresh by hand from the Actions tab
+permissions:
+  contents: write               # the bot commits prices.json back to main
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 scripts/fetch_prices.py
+      - run: |
+          git config user.name "gpu1-price-bot"
+          git config user.email "bot@gpu1.ai"
+          git add prices.json
+          git diff --cached --quiet || git commit -m "prices: hourly refresh"
+          git push</pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h3>Wire index.html to prices.json</h3>
+              <p>One change from this preview, which carries its snapshot inline: the production page fetches the JSON the Action keeps fresh, then renders the same tables. If the fetch fails, it falls back to the inline snapshot so the page never renders empty.</p>
+              <div class="codeblock">
+                <span class="fname">index.html — data wiring</span>
+                <button class="copy-btn" type="button">Copy</button>
+                <pre>// production: load the freshest committed snapshot, then render
+fetch('prices.json')
+  .then(r =&gt; r.json())
+  .then(d =&gt; render(d.rows, d.fetchedAt))
+  .catch(() =&gt; render(INLINE_SNAPSHOT.rows, INLINE_SNAPSHOT.fetchedAt));</pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h3>Connect Cloudflare Pages</h3>
+              <p>The same setup that worked for mtls.ai. In the Cloudflare dashboard: <b>Workers &amp; Pages → Create → Pages → Connect to Git</b>, pick the <code class="inline">gpu1.ai</code> repo, then:</p>
+              <ul>
+                <li><b>Project name:</b> gpu1-ai (your preview URL becomes gpu1-ai.pages.dev)</li>
+                <li><b>Framework preset:</b> None</li>
+                <li><b>Build command:</b> leave empty — there is no build step</li>
+                <li><b>Build output directory:</b> <code class="inline">/</code> (the repo root)</li>
+                <li>Hit <b>Save and Deploy</b>. From then on, every push to main — including the price bot's hourly commits — redeploys automatically in under a minute.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h3>Attach the gpu1.ai domain</h3>
+              <p>In the Pages project: <b>Custom domains → Set up a custom domain → gpu1.ai</b>. If the domain's DNS is already on Cloudflare, the record is created for you and HTTPS is automatic. You bought gpu1.ai at a registrar, so if its DNS isn't on Cloudflare yet, either point the domain's nameservers to Cloudflare first (free, and it's how mtls.ai is set up) or add the CNAME Pages gives you at your registrar — apex domains generally need Cloudflare DNS or CNAME flattening, so the nameserver route is the painless one. Then add <code class="inline">www.gpu1.ai</code> as a second custom domain and redirect it to the apex.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h3>Verify the money plumbing</h3>
+              <p>Before announcing anything, click every Rent button on the live site and confirm the URLs carry your codes — <code class="inline">ref_id=751418</code> on Vast.ai (the dedicated, never-rented referral account, so earnings can cash out) and <code class="inline">ref=aadmljc2</code> on RunPod. Check the Action ran green in the repo's Actions tab, and that <code class="inline">gpu1.ai/prices.json</code> shows a recent timestamp.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h3>Launch checklist</h3>
+              <ul class="checklist">
+                <li><b>Search Console:</b> add gpu1.ai and submit the URL — the “cheapest H100” queries are the whole SEO game.</li>
+                <li><b>Announce it:</b> a build-in-public X thread (live price drops are the hook), a @bube.builds carousel, and the link in both bios.</li>
+                <li><b>First deep-dive:</b> publish “What it actually costs to fine-tune Llama 3 8B” using the calculator's numbers — that's the page other engineers link to.</li>
+                <li><b>Weekly price-drop post:</b> the Action's commit history is a ready-made changelog; the biggest drop of the week becomes a recurring post and, later, the newsletter.</li>
+                <li><b>Milestone watch:</b> at 25 paying RunPod referrals the 12% cash tier unlocks — that's the day RunPod stops being credit money.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap" id="disclosure">
+        <div class="sec-head">
+          <h2>Affiliate disclosure</h2>
+        </div>
+        <div class="disclosure">
+          <p><b>The short version:</b> links to Vast.ai and RunPod on this page are affiliate/referral links. If you rent a GPU through one, the provider pays gpu1.ai a cut — <b>3% of your spend on Vast.ai, for the life of your account</b>; on RunPod, referral credits today and a 12% cash tier after 25 paying referrals. Your price is exactly the same as going direct — and on RunPod you get a $5–$500 credit bonus for coming through the link.</p>
+          <p><b>About the prices:</b> every figure on this page was pulled from the providers' own public APIs (Vast.ai marketplace offers and RunPod's pricing endpoint) at the snapshot time shown — nothing is hand-typed and nothing is sponsored. Marketplace prices are live inventory: the cheapest offer can be rented by someone else a minute later, which is why the table shows medians alongside minimums. Sponsored placements, if they ever appear, will be labeled as such and will never change a price in the table.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap f-in">
+        <span><b style="color:var(--ink)">gpu1.ai</b> — built by Bube Amos · <a href="https://x.com/bubeamos" target="_blank" rel="noopener">@bubeamos</a> · <a href="https://www.instagram.com/bube.builds" target="_blank" rel="noopener">@bube.builds</a></span>
+        <span>Data: <a href="https://vast.ai/developers/api" target="_blank" rel="noopener">Vast.ai API</a> · <a href="https://www.runpod.io/pricing" target="_blank" rel="noopener">RunPod pricing</a> · <span id="foot-snap"></span></span>
+      </div>
+    </footer>
+
+    <script>
+      "use strict";
+      var VAST_URL = "https://cloud.vast.ai/?ref_id=751418";
+      var RUNPOD_URL = "https://runpod.io?ref=aadmljc2";
+      var SNAPSHOT_LABEL = "Sun, Oct 18, 2026 · 3:52 PM EDT";
+      var SNAPSHOT_UTC = "2026-10-18 19:52 UTC";
+      var DATA = {"rows":[{"gpu":"B200","vram":180,"vastMin":6.252,"vastMedian":9.003,"vastSingle":6.252,"vastOffers":10,"vastLoc":"Oregon, US","vastReliable":6.252,"runpod":5.98},{"gpu":"H200","vram":141,"vastMin":2.763,"vastMedian":4.343,"vastSingle":2.765,"vastOffers":14,"vastLoc":"Japan, JP","vastReliable":5.001,"runpod":3.59},{"gpu":"H100 SXM","vram":80,"vastMin":1.335,"vastMedian":2.401,"vastSingle":1.335,"vastOffers":24,"vastLoc":"United Kingdom, GB","vastReliable":1.92,"runpod":2.69},{"gpu":"A100 80GB","vram":80,"vastMin":0.601,"vastMedian":1.094,"vastSingle":0.602,"vastOffers":16,"vastLoc":"United Arab Emirates, AE","vastReliable":0.601,"runpod":1.39},{"gpu":"A100 40GB","vram":40,"vastMin":0.427,"vastMedian":0.641,"vastSingle":0.43,"vastOffers":31,"vastLoc":"California, US","vastReliable":0.427,"runpod":1},{"gpu":"RTX 5090","vram":32,"vastMin":0.402,"vastMedian":0.614,"vastSingle":0.402,"vastOffers":64,"vastLoc":", CN","vastReliable":0.402,"runpod":0.69},{"gpu":"L40S","vram":48,"vastMin":0.429,"vastMedian":0.64,"vastSingle":0.429,"vastOffers":20,"vastLoc":"Taiwan, TW","vastReliable":0.467,"runpod":0.79},{"gpu":"RTX A6000","vram":48,"vastMin":0.281,"vastMedian":0.402,"vastSingle":0.281,"vastOffers":9,"vastLoc":"Slovakia, SK","vastReliable":0.281,"runpod":null},{"gpu":"A40","vram":48,"vastMin":0.401,"vastMedian":0.534,"vastSingle":0.402,"vastOffers":17,"vastLoc":"Belgium, BE","vastReliable":0.401,"runpod":0.35},{"gpu":"RTX 4090","vram":24,"vastMin":0.379,"vastMedian":0.496,"vastSingle":0.402,"vastOffers":55,"vastLoc":"Japan, JP","vastReliable":0.4,"runpod":0.34},{"gpu":"RTX 3090 Ti","vram":24,"vastMin":0.229,"vastMedian":0.268,"vastSingle":0.229,"vastOffers":8,"vastLoc":"Moskovskaya oblast', RU","vastReliable":0.256,"runpod":null},{"gpu":"RTX 3090","vram":24,"vastMin":0.121,"vastMedian":0.214,"vastSingle":0.122,"vastOffers":64,"vastLoc":"Quebec, CA","vastReliable":0.121,"runpod":0.22},{"gpu":"L4","vram":24,"vastMin":0.2,"vastMedian":0.361,"vastSingle":0.295,"vastOffers":10,"vastLoc":"Pennsylvania, US","vastReliable":0.295,"runpod":0.44}],"tops":{"H100 SXM":[{"ppg":1.335,"total":1.335,"n":1,"loc":"United Kingdom, GB","rel":0.896,"cpu":"AMD EPYC 7R13 Processor","ram":255685,"disk":3177.1,"down":7260.1,"up":3825.1},{"ppg":1.92,"total":15.362,"n":8,"loc":"India, IN","rel":0.987,"cpu":"AMD EPYC 9654 96-Core Processor","ram":2321967,"disk":3545.0,"down":168.4,"up":89.2},{"ppg":1.921,"total":3.842,"n":2,"loc":"India, IN","rel":0.987,"cpu":"AMD EPYC 9654 96-Core Processor","ram":580491,"disk":886.25,"down":168.4,"up":89.2},{"ppg":1.922,"total":1.922,"n":1,"loc":"India, IN","rel":0.987,"cpu":"AMD EPYC 9654 96-Core Processor","ram":290245,"disk":443.125,"down":168.4,"up":89.2},{"ppg":2.123,"total":2.123,"n":1,"loc":"Germany, DE","rel":0.995,"cpu":"AMD EPYC 9454 48-Core Processor","ram":125718,"disk":435.0,"down":452.9,"up":513.9},{"ppg":2.4,"total":19.201,"n":8,"loc":"Japan, JP","rel":0.957,"cpu":"Xeon\u00ae Platinum 8480+","ram":2063706,"disk":6436.8,"down":2150.3,"up":99.0}],"A100 80GB":[{"ppg":0.601,"total":1.202,"n":2,"loc":"United Arab Emirates, AE","rel":0.996,"cpu":"Xeon\u00ae Gold 6336Y ","ram":257810,"disk":253.64999999999998,"down":96.3,"up":96.0},{"ppg":0.602,"total":0.602,"n":1,"loc":"United Arab Emirates, AE","rel":0.996,"cpu":"Xeon\u00ae Gold 6336Y ","ram":128905,"disk":126.82499999999999,"down":96.3,"up":96.0},{"ppg":0.801,"total":1.602,"n":2,"loc":"France, FR","rel":0.991,"cpu":"AMD EPYC 7742 64-Core Processor","ram":257898,"disk":244.0,"down":911.6,"up":909.0},{"ppg":0.802,"total":0.802,"n":1,"loc":"France, FR","rel":0.991,"cpu":"AMD EPYC 7742 64-Core Processor","ram":128949,"disk":122.0,"down":911.6,"up":909.0},{"ppg":1.056,"total":1.056,"n":1,"loc":"Sweden, SE","rel":0.998,"cpu":"AMD EPYC 7532 32-Core Processor","ram":128990,"disk":1025.375,"down":7577.7,"up":4585.8},{"ppg":1.068,"total":1.068,"n":1,"loc":"Taiwan, TW","rel":0.993,"cpu":"Xeon\u00ae Platinum 8368 ","ram":257983,"disk":87.375,"down":762.3,"up":584.6}],"RTX 5090":[{"ppg":0.402,"total":0.402,"n":1,"loc":", CN","rel":0.992,"cpu":"AMD EPYC 7K62 48-Core Processor","ram":64393,"disk":623.5,"down":1364.1,"up":1369.6},{"ppg":0.413,"total":0.826,"n":2,"loc":"British Columbia, CA","rel":0.998,"cpu":"AMD EPYC 7702 64-Core Processor","ram":64313,"disk":548.0,"down":938.9,"up":937.1},{"ppg":0.414,"total":0.414,"n":1,"loc":"British Columbia, CA","rel":0.998,"cpu":"AMD EPYC 7702 64-Core Processor","ram":32156,"disk":274.0,"down":938.9,"up":937.1},{"ppg":0.427,"total":1.709,"n":4,"loc":"Slovakia, SK","rel":0.996,"cpu":"AMD Ryzen Threadripper PRO 9955WX 16-Cores","ram":63644,"disk":4942.0,"down":791.6,"up":279.5},{"ppg":0.427,"total":1.709,"n":4,"loc":"Slovakia, SK","rel":0.967,"cpu":"AMD Ryzen Threadripper PRO 9975WX 32-Cores","ram":63629,"disk":3951.0,"down":776.6,"up":279.3},{"ppg":0.428,"total":0.856,"n":2,"loc":"Slovakia, SK","rel":0.996,"cpu":"AMD Ryzen Threadripper PRO 9955WX 16-Cores","ram":31822,"disk":2471.0,"down":791.6,"up":279.5}],"RTX 4090":[{"ppg":0.379,"total":0.758,"n":2,"loc":"Japan, JP","rel":0.977,"cpu":null,"ram":64334,"disk":749.15,"down":320.7,"up":638.2},{"ppg":0.4,"total":2.002,"n":5,"loc":"Iceland, IS","rel":0.998,"cpu":null,"ram":515691,"disk":1424.9,"down":610.8,"up":489.3},{"ppg":0.401,"total":0.802,"n":2,"loc":"Texas, US","rel":0.963,"cpu":"AMD EPYC 7502 32-Core Processor","ram":64147,"disk":693.7,"down":6487.1,"up":5656.6},{"ppg":0.401,"total":0.802,"n":2,"loc":"Iceland, IS","rel":0.998,"cpu":null,"ram":206276,"disk":569.96,"down":610.8,"up":489.3},{"ppg":0.402,"total":0.402,"n":1,"loc":"Ireland, IE","rel":0.996,"cpu":"AMD Ryzen Threadripper PRO 3955WX 16-Cores","ram":103139,"disk":168.0,"down":14411.6,"up":1219.4},{"ppg":0.402,"total":0.402,"n":1,"loc":"Nevada, US","rel":0.998,"cpu":"11th Gen Core\u2122 i5-11600KF ","ram":64181,"disk":2844.0,"down":910.4,"up":912.3}],"L40S":[{"ppg":0.429,"total":0.429,"n":1,"loc":"Taiwan, TW","rel":0.946,"cpu":"Xeon\u00ae w9-3495X","ram":257627,"disk":3127.95,"down":210.1,"up":206.7},{"ppg":0.436,"total":0.436,"n":1,"loc":"New York, US","rel":0.929,"cpu":"eon Processor (SapphireRapids)","ram":120892,"disk":301.0,"down":7364.7,"up":886.5},{"ppg":0.441,"total":0.883,"n":2,"loc":"New York, US","rel":0.573,"cpu":"eon Processor (SapphireRapids)","ram":241784,"disk":921.6,"down":4444.9,"up":444.5},{"ppg":0.443,"total":0.443,"n":1,"loc":"New York, US","rel":0.573,"cpu":"eon Processor (SapphireRapids)","ram":120892,"disk":460.8,"down":4444.9,"up":444.5},{"ppg":0.467,"total":1.868,"n":4,"loc":"Japan, JP","rel":0.994,"cpu":"Xeon\u00ae Gold 6430","ram":515557,"disk":2817.0,"down":452.6,"up":449.5},{"ppg":0.6,"total":1.201,"n":2,"loc":"Texas, US","rel":0.999,"cpu":"Xeon\u00ae Gold 6430","ram":257826,"disk":19225.0,"down":848.8,"up":938.2}]}};
+
+      var ROWS = DATA.rows;
+      var TOPS = DATA.tops;
+
+      function $(id) { return document.getElementById(id); }
+      function fmt(n, d) { return "$" + n.toFixed(d == null ? 3 : d); }
+      function money(n) {
+        if (n >= 1000) return "$" + n.toLocaleString("en-US", { maximumFractionDigits: 0 });
+        if (n >= 100) return "$" + n.toFixed(0);
+        if (n >= 10) return "$" + n.toFixed(1);
+        return "$" + n.toFixed(2);
+      }
+      function bestOf(r) {
+        if (r.runpod != null && r.runpod < r.vastMin) return { price: r.runpod, prov: "RunPod", url: RUNPOD_URL };
+        return { price: r.vastMin, prov: "Vast.ai", url: VAST_URL };
+      }
+      function cleanLoc(loc) {
+        if (!loc) return "—";
+        return loc.replace(/^,\s*/, "").replace(/,\s*$/, "") || "—";
+      }
+      function el(tag, cls, text) {
+        var e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text != null) e.textContent = text;
+        return e;
+      }
+
+      /* ---------- snapshot labels ---------- */
+      $("snap-pill-text").textContent = "Snapshot · Oct 18, 2026 · 3:52 PM EDT";
+      $("term-foot").textContent = "pulled " + SNAPSHOT_UTC + " · sources: Vast.ai offers API, RunPod pricing API · per-GPU normalized";
+      $("foot-snap").textContent = "Snapshot: " + SNAPSHOT_LABEL;
+
+      /* ---------- terminal board ---------- */
+      (function () {
+        var board = $("term-board");
+        var order = ["H100 SXM", "A100 80GB", "RTX 5090", "RTX 4090", "RTX 3090", "L40S", "B200"];
+        order.forEach(function (name) {
+          var r = null;
+          ROWS.forEach(function (x) { if (x.gpu === name) r = x; });
+          if (!r) return;
+          var b = bestOf(r);
+          var row = el("div", "term-row");
+          row.appendChild(el("span", "g", name));
+          row.appendChild(el("span", "dots"));
+          var p = el("span", "p");
+          var vast = document.createElement("b"); vast.textContent = "Vast " + fmt(r.vastMin);
+          p.appendChild(vast);
+          if (r.runpod != null) {
+            var rp = document.createElement("b"); rp.textContent = "RunPod " + fmt(r.runpod, 2);
+            p.appendChild(document.createTextNode(" · "));
+            p.appendChild(rp);
+          }
+          row.appendChild(p);
+          row.appendChild(el("span", "dots"));
+          row.appendChild(el("span", "best", "→ " + fmt(b.price) + " " + b.prov));
+          board.appendChild(row);
+        });
+      })();
+
+      /* ---------- cheapest cards ---------- */
+      (function () {
+        var wrap = $("cheapest-cards");
+        ["H100 SXM", "A100 80GB", "RTX 4090", "RTX 3090"].forEach(function (name) {
+          var r = null;
+          ROWS.forEach(function (x) { if (x.gpu === name) r = x; });
+          if (!r) return;
+          var b = bestOf(r);
+          var card = el("div", "card");
+          var line = el("div", "gpu-line");
+          line.appendChild(el("span", "gpu-name", name));
+          line.appendChild(el("span", "chip", r.vram + " GB"));
+          card.appendChild(line);
+          var price = el("div", "price");
+          price.textContent = fmt(b.price);
+          price.appendChild(el("small", null, " /GPU/hr"));
+          card.appendChild(price);
+          var whereText = b.prov === "Vast.ai"
+            ? "on Vast.ai · " + r.vastOffers + " live offers · cheapest in " + cleanLoc(r.vastLoc)
+            : "on RunPod · fixed rate card";
+          card.appendChild(el("div", "where", whereText));
+          var other = b.prov === "Vast.ai" ? r.runpod : r.vastMin;
+          var otherName = b.prov === "Vast.ai" ? "RunPod" : "Vast.ai";
+          if (other != null) {
+            card.appendChild(el("div", "alt", otherName + " from " + fmt(other, other >= 1 ? 2 : 3) + "/hr"));
+            var pct = Math.round((1 - b.price / other) * 100);
+            if (pct > 0) card.appendChild(el("span", "save-badge", "save " + pct + "% vs " + otherName));
+          }
+          card.appendChild(el("div", "spacer"));
+          var a = el("a", "btn btn-primary btn-sm", "Rent the " + name);
+          a.href = b.url; a.target = "_blank"; a.rel = "noopener sponsored";
+          card.appendChild(a);
+          wrap.appendChild(card);
+        });
+      })();
+
+      /* ---------- comparison table ---------- */
+      function renderPrices() {
+        var q = $("gpu-search").value.trim().toLowerCase();
+        var minVram = parseInt($("vram-filter").value, 10);
+        var sort = $("sort-sel").value;
+        var rows = ROWS.filter(function (r) {
+          return r.gpu.toLowerCase().indexOf(q) !== -1 && r.vram >= minVram;
+        });
+        rows.sort(function (a, b) {
+          if (sort === "vram") return b.vram - a.vram || bestOf(a).price - bestOf(b).price;
+          if (sort === "name") return a.gpu.localeCompare(b.gpu);
+          return bestOf(a).price - bestOf(b).price;
+        });
+        var tb = $("price-rows");
+        tb.innerHTML = "";
+        if (!rows.length) {
+          var tr = document.createElement("tr");
+          var td = el("td", null, "No GPUs match that filter.");
+          td.colSpan = 7;
+          tr.appendChild(td);
+          tb.appendChild(tr);
+        }
+        rows.forEach(function (r) {
+          var b = bestOf(r);
+          var tr = document.createElement("tr");
+          var c1 = el("td", "gpu-cell", r.gpu); c1.setAttribute("data-label", "GPU");
+          tr.appendChild(c1);
+          var c2 = el("td", "num", r.vram + " GB"); c2.setAttribute("data-label", "VRAM");
+          tr.appendChild(c2);
+          var c3 = el("td", "num");
+          c3.setAttribute("data-label", "Vast.ai from");
+          c3.textContent = fmt(r.vastMin);
+          if (b.prov === "Vast.ai") c3.classList.add("best-price");
+          var tag3 = el("span", "prov-tag", r.vastOffers + " offers");
+          c3.appendChild(tag3);
+          tr.appendChild(c3);
+          var c4 = el("td", "num", fmt(r.vastMedian)); c4.setAttribute("data-label", "Vast.ai median");
+          tr.appendChild(c4);
+          var c5 = el("td", "num");
+          c5.setAttribute("data-label", "RunPod from");
+          if (r.runpod != null) {
+            c5.textContent = fmt(r.runpod, 2);
+            if (b.prov === "RunPod") c5.classList.add("best-price");
+          } else {
+            c5.innerHTML = '<span class="na">—</span>';
+          }
+          tr.appendChild(c5);
+          var c6 = el("td", "num best-price");
+          c6.setAttribute("data-label", "Best");
+          c6.textContent = fmt(b.price);
+          c6.appendChild(el("span", "prov-tag", b.prov));
+          tr.appendChild(c6);
+          var c7 = el("td", "action-cell");
+          var a = el("a", "btn btn-primary btn-sm", "Rent");
+          a.href = b.url; a.target = "_blank"; a.rel = "noopener sponsored";
+          c7.appendChild(a);
+          tr.appendChild(c7);
+          tb.appendChild(tr);
+        });
+        var vastWins = ROWS.filter(function (r) { return bestOf(r).prov === "Vast.ai"; }).length;
+        $("price-note").textContent =
+          "Snapshot: " + SNAPSHOT_LABEL + " (" + SNAPSHOT_UTC + "). Vast.ai wins " + vastWins + " of " +
+          ROWS.length + " rows at snapshot; RunPod's fixed rates win the rest — mostly where the marketplace is thin. " +
+          "Multi-GPU machines are normalized to a per-GPU price. Always confirm the live price at checkout.";
+      }
+      ["gpu-search", "vram-filter", "sort-sel"].forEach(function (id) {
+        $(id).addEventListener("input", renderPrices);
+        $(id).addEventListener("change", renderPrices);
+      });
+      renderPrices();
+
+      /* ---------- live offers explorer ---------- */
+      var TAB_GPUS = ["H100 SXM", "A100 80GB", "RTX 5090", "RTX 4090", "L40S"];
+      var activeGpu = TAB_GPUS[0];
+      function renderTabs() {
+        var wrap = $("offer-tabs");
+        wrap.innerHTML = "";
+        TAB_GPUS.forEach(function (name) {
+          var b = el("button", "tab", name);
+          b.type = "button";
+          b.setAttribute("role", "tab");
+          b.setAttribute("aria-selected", name === activeGpu ? "true" : "false");
+          b.addEventListener("click", function () {
+            activeGpu = name;
+            renderTabs();
+            renderOffers();
+          });
+          wrap.appendChild(b);
+        });
+      }
+      function renderOffers() {
+        var tb = $("offer-rows");
+        tb.innerHTML = "";
+        (TOPS[activeGpu] || []).forEach(function (o) {
+          var tr = document.createElement("tr");
+          function td(cls, label, text) {
+            var c = el("td", cls, text);
+            c.setAttribute("data-label", label);
+            return c;
+          }
+          var ppg = td("num best-price", "$/GPU/hr", fmt(o.ppg));
+          tr.appendChild(ppg);
+          tr.appendChild(td("num", "Total $/hr", fmt(o.total, o.total >= 10 ? 2 : 3)));
+          tr.appendChild(td("num", "GPUs", String(o.n)));
+          tr.appendChild(td("", "Location", cleanLoc(o.loc)));
+          var relPct = Math.round(o.rel * 1000) / 10;
+          var rel = td("num " + (o.rel >= 0.98 ? "rel-good" : "rel-mid"), "Reliability", relPct + "%");
+          tr.appendChild(rel);
+          var cpu = td("cpu-cell", "Host CPU", o.cpu || "—");
+          cpu.title = o.cpu || "";
+          tr.appendChild(cpu);
+          tr.appendChild(td("num", "RAM", Math.round(o.ram / 1000) + " GB"));
+          tr.appendChild(td("num", "Disk", Math.round(o.disk) + " GB"));
+          tr.appendChild(td("num", "Down / Up", Math.round(o.down) + " / " + Math.round(o.up)));
+          var act = el("td", "action-cell");
+          var a = el("a", "btn btn-ghost btn-sm", "Rent");
+          a.href = VAST_URL; a.target = "_blank"; a.rel = "noopener sponsored";
+          act.appendChild(a);
+          tr.appendChild(act);
+          tb.appendChild(tr);
+        });
+        var r = null;
+        ROWS.forEach(function (x) { if (x.gpu === activeGpu) r = x; });
+        var note = "Top " + (TOPS[activeGpu] || []).length + " cheapest per-GPU offers for the " + activeGpu +
+          " on Vast.ai at snapshot (" + SNAPSHOT_LABEL + ").";
+        if (r && r.vastReliable != null) {
+          note += " Reliable floor (hosts rated 98%+): " + fmt(r.vastReliable) + "/GPU/hr" +
+            (r.vastReliable > r.vastMin ? " — you pay " + fmt(r.vastReliable - r.vastMin) + " more for a proven host." : " — the cheapest offer is already on a top-rated host.");
+        }
+        $("offer-note").textContent = note;
+      }
+      renderTabs();
+      renderOffers();
+
+      /* ---------- calculator ---------- */
+      var BUY = { "RTX 5090": 1999, "RTX 4090": 1599, "RTX 3090": 699, "RTX 3090 Ti": 899 };
+      var buyFor = null, buyPrice = 0;
+      function updateBreakeven(r) {
+        var line = $("be-line");
+        if (!line) return;
+        var beHours = Math.round(buyPrice / r.vastMedian);
+        line.innerHTML = "";
+        line.appendChild(document.createTextNode("Break-even at the typical Vast.ai rate: "));
+        line.appendChild(el("b", null, beHours.toLocaleString("en-US") + " hours"));
+        line.appendChild(document.createTextNode(" of renting — that's " + (beHours / 720).toFixed(1) +
+          " months running 24/7, before electricity and your time. Rent less than that and renting wins; run a card flat-out for a year and buying does."));
+      }
+      var calcCount = 1;
+      var gpuSel = $("calc-gpu");
+      ROWS.forEach(function (r) {
+        var o = document.createElement("option");
+        o.value = r.gpu;
+        o.textContent = r.gpu + " · " + r.vram + " GB";
+        gpuSel.appendChild(o);
+      });
+      gpuSel.value = "RTX 4090";
+
+      var PRESETS = [
+        { label: "Fine-tune Llama 3 8B (LoRA)", gpu: "RTX 4090", n: 1, h: 6 },
+        { label: "Fine-tune a 70B model", gpu: "H100 SXM", n: 8, h: 48 },
+        { label: "Inference server, a month of 24/7", gpu: "L40S", n: 1, h: 720 },
+        { label: "Weekend experiment", gpu: "RTX 3090", n: 1, h: 20 }
+      ];
+      var presetWrap = $("presets");
+      PRESETS.forEach(function (p) {
+        var b = el("button", "preset");
+        b.type = "button";
+        b.innerHTML = "";
+        var bold = el("b", null, p.label + " ");
+        b.appendChild(bold);
+        b.appendChild(document.createTextNode("· " + p.n + "× " + p.gpu + ", ~" + p.h + "h"));
+        b.addEventListener("click", function () {
+          gpuSel.value = p.gpu;
+          setCount(p.n);
+          $("calc-hours").value = p.h;
+          renderCalc();
+        });
+        presetWrap.appendChild(b);
+      });
+      function setCount(n) {
+        calcCount = n;
+        var btns = $("calc-count").getElementsByTagName("button");
+        for (var i = 0; i < btns.length; i++) {
+          btns[i].setAttribute("aria-pressed", parseInt(btns[i].getAttribute("data-n"), 10) === n ? "true" : "false");
+        }
+      }
+      var countBtns = $("calc-count").getElementsByTagName("button");
+      for (var i = 0; i < countBtns.length; i++) {
+        countBtns[i].addEventListener("click", function () {
+          setCount(parseInt(this.getAttribute("data-n"), 10));
+          renderCalc();
+        });
+      }
+      gpuSel.addEventListener("change", renderCalc);
+      $("calc-hours").addEventListener("input", renderCalc);
+
+      function currentRow() {
+        var r = null;
+        ROWS.forEach(function (x) { if (x.gpu === gpuSel.value) r = x; });
+        return r;
+      }
+      function renderCalc() {
+        var r = currentRow();
+        if (!r) return;
+        var hours = parseInt($("calc-hours").value, 10);
+        $("hours-out").textContent = hours + " h";
+        var lines = [
+          { who: "Vast.ai — best case", sub: fmt(r.vastMin) + "/GPU/hr, cheapest live offer", amt: r.vastMin * calcCount * hours },
+          { who: "Vast.ai — typical", sub: fmt(r.vastMedian) + "/GPU/hr, median of " + r.vastOffers + " offers", amt: r.vastMedian * calcCount * hours }
+        ];
+        if (r.runpod != null) {
+          lines.push({ who: "RunPod", sub: fmt(r.runpod, 2) + "/GPU/hr, fixed rate", amt: r.runpod * calcCount * hours });
+        }
+        var minAmt = Math.min.apply(null, lines.map(function (l) { return l.amt; }));
+        var wrap = $("cost-rows");
+        wrap.innerHTML = "";
+        lines.forEach(function (l) {
+          var row = el("div", "cost-row");
+          var who = el("div", "who", l.who);
+          who.appendChild(el("small", null, l.sub));
+          row.appendChild(who);
+          row.appendChild(el("div", "amt" + (l.amt === minAmt ? " win" : ""), money(l.amt)));
+          wrap.appendChild(row);
+        });
+        /* rent vs buy */
+        var rvb = $("rvb");
+        rvb.innerHTML = "";
+        if (BUY[r.gpu]) {
+          if (buyFor !== r.gpu) { buyFor = r.gpu; buyPrice = BUY[r.gpu]; }
+          var p1 = el("p");
+          p1.style.margin = "0 0 6px";
+          p1.appendChild(document.createTextNode("Rent vs buy: a " + r.gpu + " costs about "));
+          var inp = document.createElement("input");
+          inp.type = "number"; inp.min = "1"; inp.value = buyPrice;
+          inp.setAttribute("aria-label", "Purchase price in USD");
+          inp.addEventListener("input", function () {
+            buyPrice = parseFloat(inp.value) || BUY[r.gpu];
+            updateBreakeven(r);
+          });
+          p1.appendChild(document.createTextNode("$"));
+          p1.appendChild(inp);
+          p1.appendChild(document.createTextNode(" to buy (edit if your price differs)."));
+          rvb.appendChild(p1);
+          var p2 = el("p");
+          p2.style.margin = "0";
+          p2.id = "be-line";
+          rvb.appendChild(p2);
+          updateBreakeven(r);
+        } else {
+          var p = el("p", null, "Rent vs buy: the " + r.gpu + " is a datacenter card with no sane consumer retail price — renting (or a cloud contract) is the realistic route, which is exactly why its hourly rate matters.");
+          p.style.margin = "0";
+          rvb.appendChild(p);
+        }
+      }
+      renderCalc();
+
+      /* ---------- copy buttons ---------- */
+      var copyBtns = document.querySelectorAll(".copy-btn");
+      for (var j = 0; j < copyBtns.length; j++) {
+        copyBtns[j].addEventListener("click", function () {
+          var btn = this;
+          var pre = btn.parentNode.querySelector("pre");
+          var text = pre ? pre.textContent : "";
+          function done() {
+            btn.textContent = "Copied";
+            setTimeout(function () { btn.textContent = "Copy"; }, 1600);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, done);
+          } else {
+            var ta = document.createElement("textarea");
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand("copy"); } catch (e) { /* noop */ }
+            document.body.removeChild(ta);
+            done();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
