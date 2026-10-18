@@ -290,25 +290,7 @@
       .roadmap { margin-top: 14px; font-size: 14px; color: var(--muted); background: var(--panel); border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 14px 18px; }
       .roadmap b { color: var(--ink); }
 
-      /* ---------- price refresh ---------- */
-      .arch { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; margin-bottom: 26px; }
-      .arch .node {
-        flex: 1 1 150px; background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--radius);
-        padding: 12px 14px; font-size: 13.5px;
-      }
-      .arch .node b { display: block; font-size: 14.5px; margin-bottom: 2px; }
-      .arch .node span { color: var(--muted); }
-      .arch .arrow { align-self: center; color: var(--accent); font-weight: 800; font-size: 18px; }
-      @media (max-width: 700px) { .arch .arrow { transform: rotate(90deg); flex: 0 0 100%; text-align: center; } }
-      code.inline { font-family: "JetBrains Mono", monospace; font-size: 0.86em; background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; color: var(--ink); white-space: nowrap; }
-      .refresh-notes { max-width: 46em; }
-      .refresh-notes p { color: var(--muted); margin: 0 0 12px; font-size: 15.5px; }
-      .refresh-notes p:last-child { margin-bottom: 0; }
-      .refresh-notes p b { color: var(--ink); }
-
-      /* ---------- disclosure / footer ---------- */
-      .disclosure { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 22px; color: var(--muted); font-size: 14.5px; }
-      .disclosure b { color: var(--ink); }
+      /* ---------- footer ---------- */
       footer { margin-top: 60px; border-top: 1px solid var(--line); padding: 26px 0 40px; color: var(--faint); font-size: 13.5px; }
       footer .f-in { display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: space-between; }
       footer a { color: var(--muted); }
@@ -323,7 +305,6 @@
           <a href="#offers">Live offers</a>
           <a href="#calculator">Calculator</a>
           <a href="#providers">Providers</a>
-          <a href="#refresh">Price refresh</a>
         </nav>
         <span class="snap-pill"><span class="pulse"></span><span id="snap-pill-text">Snapshot · Oct 18, 2026 · 3:52 PM EDT</span><span class="pill-short" id="pill-short">Oct 18 · 3:52 PM EDT</span></span>
       </div>
@@ -337,7 +318,6 @@
             <p class="lede">gpu1.ai tracks live rental prices for the GPUs people actually train and serve models on — across Vast.ai's marketplace and RunPod — normalized per GPU, per hour, so an 8-GPU rig and a single card compare fairly.</p>
             <div class="cta-row">
               <a class="btn btn-primary" href="#prices">See today's prices</a>
-              <a class="btn btn-ghost" href="#refresh">How prices refresh</a>
             </div>
             <div class="stat-row">
               <div class="stat"><b id="stat-gpus">13</b><span>GPUs tracked</span></div>
@@ -362,7 +342,7 @@
       <section class="wrap" id="cheapest">
         <div class="sec-head">
           <h2>Cheapest right now</h2>
-          <p>The four GPUs people ask about most, at the prices below. Marketplace prices move constantly — how this page keeps its numbers fresh is explained further down.</p>
+          <p>The four GPUs people ask about most, at the prices below. Marketplace prices move constantly — the pill in the top bar always shows which set of prices you're looking at.</p>
         </div>
         <div class="cards" id="cheapest-cards"></div>
       </section>
@@ -493,39 +473,6 @@
         <p class="roadmap"><b>On the roadmap:</b> Lambda, CoreWeave, Vultr, and DigitalOcean rate cards join as curated rows next. Fixed-price clouds don't expose live-offer APIs the way a marketplace does, so their published rates get verified by hand before they enter the table.</p>
       </section>
 
-      <section class="wrap" id="refresh">
-        <div class="sec-head">
-          <h2>How the prices refresh</h2>
-          <p>Nothing here is hand-typed, and your browser never talks to the providers. Prices live in a single data file, and a small scheduled job is what keeps that file fresh — this is the pipeline.</p>
-        </div>
-
-        <div class="arch" aria-label="Price refresh pipeline">
-          <div class="node"><b>Provider APIs</b><span>Vast.ai live offers + RunPod pricing — both public, no keys</span></div>
-          <div class="arrow">→</div>
-          <div class="node"><b>GitHub Action, hourly</b><span>fetch_prices.py pulls both APIs, normalizes to $/GPU/hr</span></div>
-          <div class="arrow">→</div>
-          <div class="node"><b>prices.json</b><span>The bot commits the fresh snapshot back to the repo</span></div>
-          <div class="arrow">→</div>
-          <div class="node"><b>Cloudflare Pages</b><span>Auto-deploys the commit; the page loads the new prices.json</span></div>
-        </div>
-
-        <div class="refresh-notes">
-          <p><b>The cycle:</b> every hour, at 17 minutes past, a GitHub Actions cron runs <code class="inline">scripts/fetch_prices.py</code> in the repo. It queries Vast.ai's public offers endpoint and RunPod's public pricing endpoint, divides multi-GPU rig prices down to a per-GPU hourly rate, and writes the result to <code class="inline">prices.json</code>. The Action commits that file to <code class="inline">main</code>, and Cloudflare Pages redeploys on every push — so new prices go live within about a minute of the fetch, with no manual step and no server to babysit.</p>
-          <p><b>Where it stands:</b> both files are live in the repo — <code class="inline">scripts/fetch_prices.py</code> and the workflow <code class="inline">.github/workflows/refresh-prices.yml</code> — so the hourly cycle is running. If a fetch ever fails or the file can't be loaded, the page falls back to the snapshot baked into the page itself, and the pill in the top bar always tells you exactly which set of prices you're looking at: “Live” with the fetch time, or “Snapshot” with the baked-in one.</p>
-          <p><b>What you see:</b> with the bot on, loading gpu1.ai fetches <code class="inline">prices.json</code> and renders the tables from it. If the file can't be loaded, the page falls back to its baked-in snapshot, so it never renders empty.</p>
-          <p><b>Sooner than the hour?</b> Once the workflow is in the repo it can also be triggered by hand from the Actions tab — or run the fetch script locally and push; the next deploy picks it up either way.</p>
-        </div>
-      </section>
-
-      <section class="wrap" id="disclosure">
-        <div class="sec-head">
-          <h2>Affiliate disclosure</h2>
-        </div>
-        <div class="disclosure">
-          <p><b>The short version:</b> links to Vast.ai and RunPod on this page are affiliate/referral links. If you rent a GPU through one, the provider pays gpu1.ai a cut — <b>3% of your spend on Vast.ai, for the life of your account</b>; on RunPod, referral credits today and a 12% cash tier after 25 paying referrals. Your price is exactly the same as going direct — and on RunPod you get a $5–$500 credit bonus for coming through the link.</p>
-          <p><b>About the prices:</b> every figure on this page was pulled from the providers' own public APIs (Vast.ai marketplace offers and RunPod's pricing endpoint) at the time shown in the top bar — nothing is hand-typed and nothing is sponsored. Marketplace prices are live inventory: the cheapest offer can be rented by someone else a minute later, which is why the table shows medians alongside minimums. Sponsored placements, if they ever appear, will be labeled as such and will never change a price in the table.</p>
-        </div>
-      </section>
     </main>
 
     <footer>
