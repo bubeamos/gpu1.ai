@@ -1,0 +1,22 @@
+name: refresh-prices
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 scripts/fetch_prices.py
+      - run: |
+          git config user.name "gpu1-price-bot"
+          git config user.email "bot@gpu1.ai"
+          git add prices.json
+          git diff --cached --quiet || git commit -m "prices: hourly refresh"
+          git push
