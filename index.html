@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="gpu1.ai — live GPU cloud price comparison. Cheapest H100, A100, RTX 4090, 5090 and more across Vast.ai and RunPod, plus a training-cost calculator and the full build & deploy guide." />
+    <meta name="description" content="gpu1.ai — live GPU cloud price comparison. Cheapest H100, A100, RTX 4090, 5090 and more across Vast.ai and RunPod, plus a training-cost calculator." />
     <link rel="icon" href="data:," />
     <title>gpu1.ai — GPU cloud prices, compared</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -301,8 +301,8 @@
       .math-box .c { color: var(--term-muted); }
       .math-box .r { color: var(--term-accent); font-weight: 700; }
 
-      /* ---------- deploy ---------- */
-      .arch { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; margin-bottom: 30px; }
+      /* ---------- price refresh ---------- */
+      .arch { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; margin-bottom: 26px; }
       .arch .node {
         flex: 1 1 150px; background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--radius);
         padding: 12px 14px; font-size: 13.5px;
@@ -311,45 +311,11 @@
       .arch .node span { color: var(--muted); }
       .arch .arrow { align-self: center; color: var(--accent); font-weight: 800; font-size: 18px; }
       @media (max-width: 700px) { .arch .arrow { transform: rotate(90deg); flex: 0 0 100%; text-align: center; } }
-      .steps { counter-reset: step; display: flex; flex-direction: column; gap: 26px; }
-      .step { display: grid; grid-template-columns: 40px 1fr; gap: 16px; min-width: 0; }
-      @media (max-width: 560px) { .step { grid-template-columns: 1fr; gap: 8px; } }
-      .step-num {
-        counter-increment: step; width: 40px; height: 40px; border-radius: 50%;
-        background: var(--accent); color: var(--accent-ink); font-weight: 800; font-size: 17px;
-        display: flex; align-items: center; justify-content: center;
-      }
-      .step-num::before { content: counter(step); }
-      .step-body { min-width: 0; }
-      .step h3 { margin: 6px 0 6px; font-size: 17.5px; letter-spacing: -0.01em; }
-      .step p { color: var(--muted); margin: 0 0 10px; font-size: 15px; }
-      .step p b, .step li b { color: var(--ink); }
-      .step ul { color: var(--muted); font-size: 15px; margin: 0 0 10px; padding-left: 18px; }
-      .step li { margin-bottom: 4px; }
       code.inline { font-family: "JetBrains Mono", monospace; font-size: 0.86em; background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; color: var(--ink); white-space: nowrap; }
-      .codeblock { position: relative; margin: 14px 0 6px; }
-      .codeblock pre {
-        background: var(--term-bg); color: var(--term-ink); border: 1px solid var(--term-line); border-radius: 10px;
-        padding: 18px 16px 16px; overflow-x: auto; font-family: "JetBrains Mono", monospace; font-size: 12.8px; line-height: 1.6; margin: 0;
-      }
-      .codeblock .fname {
-        position: absolute; top: 0; left: 14px; transform: translateY(-50%);
-        background: var(--accent); color: var(--accent-ink); font-family: "JetBrains Mono", monospace;
-        font-size: 11px; font-weight: 700; border-radius: 5px; padding: 2px 9px; z-index: 1;
-      }
-      .copy-btn {
-        position: absolute; top: 10px; right: 10px; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
-        background: var(--term-panel); color: var(--term-ink); border: 1px solid var(--term-line); border-radius: 6px; padding: 5px 10px; z-index: 1;
-      }
-      .copy-btn:hover { border-color: var(--term-accent); color: var(--term-accent); }
-      .checklist { list-style: none; padding: 0; margin: 0; }
-      .checklist li { padding: 7px 0 7px 30px; position: relative; color: var(--muted); font-size: 15px; border-bottom: 1px solid var(--line); }
-      .checklist li:last-child { border-bottom: none; }
-      .checklist li::before {
-        content: ""; position: absolute; left: 2px; top: 10px; width: 15px; height: 15px;
-        border: 2px solid var(--accent); border-radius: 4px;
-      }
-      .checklist li b { color: var(--ink); }
+      .refresh-notes { max-width: 46em; }
+      .refresh-notes p { color: var(--muted); margin: 0 0 12px; font-size: 15.5px; }
+      .refresh-notes p:last-child { margin-bottom: 0; }
+      .refresh-notes p b { color: var(--ink); }
 
       /* ---------- disclosure / footer ---------- */
       .disclosure { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 22px; color: var(--muted); font-size: 14.5px; }
@@ -368,7 +334,7 @@
           <a href="#offers">Live offers</a>
           <a href="#calculator">Calculator</a>
           <a href="#providers">Providers</a>
-          <a href="#deploy">Deploy guide</a>
+          <a href="#refresh">Price refresh</a>
         </nav>
         <span class="snap-pill"><span class="pulse"></span><span id="snap-pill-text">Snapshot · Oct 18, 2026 · 3:52 PM EDT</span><span class="pill-short">Oct 18 · 3:52 PM EDT</span></span>
       </div>
@@ -382,7 +348,7 @@
             <p class="lede">gpu1.ai tracks live rental prices for the GPUs people actually train and serve models on — across Vast.ai's marketplace and RunPod — normalized per GPU, per hour, so an 8-GPU rig and a single card compare fairly.</p>
             <div class="cta-row">
               <a class="btn btn-primary" href="#prices">See today's prices</a>
-              <a class="btn btn-ghost" href="#deploy">Build &amp; deploy this site</a>
+              <a class="btn btn-ghost" href="#refresh">How prices refresh</a>
             </div>
             <div class="stat-row">
               <div class="stat"><b>13</b><span>GPUs tracked</span></div>
@@ -407,7 +373,7 @@
       <section class="wrap" id="cheapest">
         <div class="sec-head">
           <h2>Cheapest right now</h2>
-          <p>The four GPUs people ask about most, at the snapshot below. Marketplace prices move constantly — the deploy guide further down wires this exact page to refresh itself hourly.</p>
+          <p>The four GPUs people ask about most, at the snapshot below. Marketplace prices move constantly — how this page keeps its numbers fresh is explained further down.</p>
         </div>
         <div class="cards" id="cheapest-cards"></div>
       </section>
@@ -552,210 +518,27 @@
         </div>
       </section>
 
-      <section class="wrap" id="deploy">
+      <section class="wrap" id="refresh">
         <div class="sec-head">
-          <h2>Host &amp; deploy it: the full runbook</h2>
-          <p>This page is the entire site — one static HTML file. In production it reads a <code class="inline">prices.json</code> file that a GitHub Action refreshes hourly from the two provider APIs; every refresh commits, and every commit auto-deploys on Cloudflare Pages. Total running cost: $0. Here is the exact path from this preview to gpu1.ai live.</p>
+          <h2>How the prices refresh</h2>
+          <p>Nothing here is hand-typed, and your browser never talks to the providers. Prices live in a single data file, and a small scheduled job is what keeps that file fresh — this is the pipeline.</p>
         </div>
 
-        <div class="arch" aria-label="Architecture">
-          <div class="node"><b>GitHub repo</b><span>bubeamos/gpu1.ai — index.html, scripts/, prices.json</span></div>
+        <div class="arch" aria-label="Price refresh pipeline">
+          <div class="node"><b>Provider APIs</b><span>Vast.ai live offers + RunPod pricing — both public, no keys</span></div>
           <div class="arrow">→</div>
-          <div class="node"><b>GitHub Actions cron</b><span>Hourly: fetch_prices.py pulls both APIs, commits prices.json</span></div>
+          <div class="node"><b>GitHub Action, hourly</b><span>fetch_prices.py pulls both APIs, normalizes to $/GPU/hr</span></div>
           <div class="arrow">→</div>
-          <div class="node"><b>Cloudflare Pages</b><span>Auto-deploys every push to main — no build step</span></div>
+          <div class="node"><b>prices.json</b><span>The bot commits the fresh snapshot back to the repo</span></div>
           <div class="arrow">→</div>
-          <div class="node"><b>gpu1.ai</b><span>Custom domain on Pages, HTTPS by default</span></div>
+          <div class="node"><b>Cloudflare Pages</b><span>Auto-deploys the commit; the page loads the new prices.json</span></div>
         </div>
 
-        <div class="steps">
-          <div class="step">
-            <div class="step-num"></div>
-            <div class="step-body">
-              <h3>Create the repo and add the files</h3>
-              <p>Create a public repo named <b>gpu1.ai</b> under your GitHub account (same flow as mtls.ai — and make sure the “Meta Muse AI” GitHub App has this repo selected, the way you fixed it last time). The repo holds exactly four things:</p>
-              <ul>
-                <li><code class="inline">index.html</code> — this page. In the production copy the prices load from prices.json (step 3); everything else is identical.</li>
-                <li><code class="inline">scripts/fetch_prices.py</code> — the fetcher in step 2.</li>
-                <li><code class="inline">.github/workflows/prices.yml</code> — the hourly cron in step 2.</li>
-                <li><code class="inline">prices.json</code> — generated by the script; you commit the first one by hand.</li>
-              </ul>
-              <div class="codeblock">
-                <span class="fname">terminal</span>
-                <button class="copy-btn" type="button">Copy</button>
-                <pre>gh repo create gpu1.ai --public --clone
-cd gpu1.ai
-mkdir -p scripts .github/workflows
-# drop index.html in the root, and the two files from step 2 in place
-python3 scripts/fetch_prices.py        # writes the first prices.json
-git add -A &amp;&amp; git commit -m "gpu1.ai v1: comparison table + price fetcher"
-git push</pre>
-              </div>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-num"></div>
-            <div class="step-body">
-              <h3>Add the price fetcher and the hourly Action</h3>
-              <p>Both APIs are public and need <b>no keys</b>. This is the production form of the spike script, extended with RunPod and per-GPU normalization — an 8×H100 rig's sticker price is divided by 8 so rows compare fairly. Two gotchas from the spike are baked in: Vast.ai's <code class="inline">gpu_name</code> uses spaces (“RTX 4090”, not RTX_4090), and extra query params like <code class="inline">limit</code> make its API return 400, so the plain query is the reliable form.</p>
-              <div class="codeblock">
-                <span class="fname">scripts/fetch_prices.py</span>
-                <button class="copy-btn" type="button">Copy</button>
-                <pre>#!/usr/bin/env python3
-"""gpu1.ai price fetcher — writes prices.json next to index.html.
-Sources (both public, no auth):
-  Vast.ai  GET  cloud.vast.ai/api/v0/bundles/?q=&lt;json&gt;   (gpu_name uses SPACES)
-  RunPod   POST api.runpod.io/graphql                     (gpuTypes.lowestPrice)
-All prices normalized to USD per GPU per hour."""
-import json, statistics, urllib.request, urllib.parse
-from datetime import datetime, timezone
-
-VAST = "https://cloud.vast.ai/api/v0/bundles/"
-HEAD = {"User-Agent": "gpu1.ai/1.0"}
-GPUS = ["B200", "H200", "H100 SXM", "RTX 5090", "RTX 4090", "RTX 3090",
-        "RTX 3090 Ti", "L40S", "RTX A6000", "A40", "L4"]
-VRAM = {"B200": 180, "H200": 141, "H100 SXM": 80, "RTX 5090": 32, "RTX 4090": 24,
-        "RTX 3090": 24, "RTX 3090 Ti": 24, "L40S": 48, "RTX A6000": 48, "A40": 48, "L4": 24}
-RUNPOD_NAME = {"H200": "H200 SXM", "A100 80GB": "A100 SXM", "A100 40GB": "A100 SXM 40GB"}
-
-def vast_offers(name):
-    q = {"gpu_name": {"eq": name}, "rentable": {"eq": True}, "rented": {"eq": False}}
-    url = VAST + "?" + urllib.parse.urlencode({"q": json.dumps(q)})  # q only — extra params 400
-    with urllib.request.urlopen(urllib.request.Request(url, headers=HEAD), timeout=40) as r:
-        return json.load(r).get("offers", [])
-
-def vast_row(offers):
-    per = sorted(o["dph_total"] / max(o.get("num_gpus", 1), 1) for o in offers if o.get("dph_total"))
-    if not per:
-        return None
-    best = min(offers, key=lambda o: o["dph_total"] / max(o.get("num_gpus", 1), 1))
-    rel = [o for o in offers if (o.get("reliability2") or 0) &gt;= 0.98]
-    return {"min": round(per[0], 3), "median": round(statistics.median(per), 3),
-            "offers": len(offers), "loc": best.get("geolocation"),
-            "reliableMin": round(min(o["dph_total"] / max(o.get("num_gpus", 1), 1) for o in rel), 3) if rel else None}
-
-def runpod_lowest():
-    body = json.dumps({"operationName": "GpuTypes", "query":
-        "query GpuTypes { gpuTypes { displayName lowestPrice(input:{gpuCount:1}) { uninterruptablePrice } } }"}).encode()
-    req = urllib.request.Request("https://api.runpod.io/graphql", data=body,
-        headers={**HEAD, "Content-Type": "application/json", "apollo-require-preflight": "true"})
-    with urllib.request.urlopen(req, timeout=40) as r:
-        types = json.load(r)["data"]["gpuTypes"]
-    return {t["displayName"]: (t.get("lowestPrice") or {}).get("uninterruptablePrice") for t in types}
-
-def main():
-    rp = runpod_lowest()
-    rows = []
-    for name in GPUS:
-        v = vast_row(vast_offers(name))
-        if v:
-            rows.append({"gpu": name, "vram": VRAM[name], "vast": v,
-                         "runpod": rp.get(RUNPOD_NAME.get(name, name))})
-    for disp, vram in [("A100 80GB", 80), ("A100 40GB", 40)]:  # one API name, two cards — split by VRAM
-        offers = [o for o in vast_offers("A100 SXM4")
-                  if abs(round((o.get("gpu_ram") or 0) / 1024) - vram) &lt;= 4]
-        v = vast_row(offers)
-        if v:
-            rows.append({"gpu": disp, "vram": vram, "vast": v, "runpod": rp.get(RUNPOD_NAME[disp])})
-    out = {"fetchedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "rows": rows}
-    with open("prices.json", "w") as f:
-        json.dump(out, f, indent=1)
-    print(f"prices.json: {len(rows)} GPUs at {out['fetchedAt']}")
-
-if __name__ == "__main__":
-    main()</pre>
-              </div>
-              <div class="codeblock">
-                <span class="fname">.github/workflows/prices.yml</span>
-                <button class="copy-btn" type="button">Copy</button>
-                <pre>name: refresh-prices
-on:
-  schedule:
-    - cron: "17 * * * *"        # hourly, off the :00 rush
-  workflow_dispatch:            # refresh by hand from the Actions tab
-permissions:
-  contents: write               # the bot commits prices.json back to main
-jobs:
-  fetch:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - run: python3 scripts/fetch_prices.py
-      - run: |
-          git config user.name "gpu1-price-bot"
-          git config user.email "bot@gpu1.ai"
-          git add prices.json
-          git diff --cached --quiet || git commit -m "prices: hourly refresh"
-          git push</pre>
-              </div>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-num"></div>
-            <div class="step-body">
-              <h3>Wire index.html to prices.json</h3>
-              <p>One change from this preview, which carries its snapshot inline: the production page fetches the JSON the Action keeps fresh, then renders the same tables. If the fetch fails, it falls back to the inline snapshot so the page never renders empty.</p>
-              <div class="codeblock">
-                <span class="fname">index.html — data wiring</span>
-                <button class="copy-btn" type="button">Copy</button>
-                <pre>// production: load the freshest committed snapshot, then render
-fetch('prices.json')
-  .then(r =&gt; r.json())
-  .then(d =&gt; render(d.rows, d.fetchedAt))
-  .catch(() =&gt; render(INLINE_SNAPSHOT.rows, INLINE_SNAPSHOT.fetchedAt));</pre>
-              </div>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-num"></div>
-            <div class="step-body">
-              <h3>Connect Cloudflare Pages</h3>
-              <p>The same setup that worked for mtls.ai. In the Cloudflare dashboard: <b>Workers &amp; Pages → Create → Pages → Connect to Git</b>, pick the <code class="inline">gpu1.ai</code> repo, then:</p>
-              <ul>
-                <li><b>Project name:</b> gpu1-ai (your preview URL becomes gpu1-ai.pages.dev)</li>
-                <li><b>Framework preset:</b> None</li>
-                <li><b>Build command:</b> leave empty — there is no build step</li>
-                <li><b>Build output directory:</b> <code class="inline">/</code> (the repo root)</li>
-                <li>Hit <b>Save and Deploy</b>. From then on, every push to main — including the price bot's hourly commits — redeploys automatically in under a minute.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-num"></div>
-            <div class="step-body">
-              <h3>Attach the gpu1.ai domain</h3>
-              <p>In the Pages project: <b>Custom domains → Set up a custom domain → gpu1.ai</b>. If the domain's DNS is already on Cloudflare, the record is created for you and HTTPS is automatic. You bought gpu1.ai at a registrar, so if its DNS isn't on Cloudflare yet, either point the domain's nameservers to Cloudflare first (free, and it's how mtls.ai is set up) or add the CNAME Pages gives you at your registrar — apex domains generally need Cloudflare DNS or CNAME flattening, so the nameserver route is the painless one. Then add <code class="inline">www.gpu1.ai</code> as a second custom domain and redirect it to the apex.</p>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-num"></div>
-            <div class="step-body">
-              <h3>Verify the money plumbing</h3>
-              <p>Before announcing anything, click every Rent button on the live site and confirm the URLs carry your codes — <code class="inline">ref_id=751418</code> on Vast.ai (the dedicated, never-rented referral account, so earnings can cash out) and <code class="inline">ref=aadmljc2</code> on RunPod. Check the Action ran green in the repo's Actions tab, and that <code class="inline">gpu1.ai/prices.json</code> shows a recent timestamp.</p>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-num"></div>
-            <div class="step-body">
-              <h3>Launch checklist</h3>
-              <ul class="checklist">
-                <li><b>Search Console:</b> add gpu1.ai and submit the URL — the “cheapest H100” queries are the whole SEO game.</li>
-                <li><b>Announce it:</b> a build-in-public X thread (live price drops are the hook), a @bube.builds carousel, and the link in both bios.</li>
-                <li><b>First deep-dive:</b> publish “What it actually costs to fine-tune Llama 3 8B” using the calculator's numbers — that's the page other engineers link to.</li>
-                <li><b>Weekly price-drop post:</b> the Action's commit history is a ready-made changelog; the biggest drop of the week becomes a recurring post and, later, the newsletter.</li>
-                <li><b>Milestone watch:</b> at 25 paying RunPod referrals the 12% cash tier unlocks — that's the day RunPod stops being credit money.</li>
-              </ul>
-            </div>
-          </div>
+        <div class="refresh-notes">
+          <p><b>The cycle:</b> every hour, at 17 minutes past, a GitHub Actions cron runs <code class="inline">scripts/fetch_prices.py</code> in the repo. It queries Vast.ai's public offers endpoint and RunPod's public pricing endpoint, divides multi-GPU rig prices down to a per-GPU hourly rate, and writes the result to <code class="inline">prices.json</code>. The Action commits that file to <code class="inline">main</code>, and Cloudflare Pages redeploys on every push — so new prices go live within about a minute of the fetch, with no manual step and no server to babysit.</p>
+          <p><b>Where it stands:</b> that cycle runs only once two files live in the repo — <code class="inline">scripts/fetch_prices.py</code> and the workflow <code class="inline">.github/workflows/prices.yml</code>. Until they're added, the site serves the snapshot baked into the page itself, and the timestamp in the top bar always tells you exactly which snapshot you're looking at.</p>
+          <p><b>What you see:</b> with the bot on, loading gpu1.ai fetches <code class="inline">prices.json</code> and renders the tables from it. If the file can't be loaded, the page falls back to its baked-in snapshot, so it never renders empty.</p>
+          <p><b>Sooner than the hour?</b> Once the workflow is in the repo it can also be triggered by hand from the Actions tab — or run the fetch script locally and push; the next deploy picks it up either way.</p>
         </div>
       </section>
 
@@ -1134,31 +917,6 @@ fetch('prices.json')
         }
       }
       renderCalc();
-
-      /* ---------- copy buttons ---------- */
-      var copyBtns = document.querySelectorAll(".copy-btn");
-      for (var j = 0; j < copyBtns.length; j++) {
-        copyBtns[j].addEventListener("click", function () {
-          var btn = this;
-          var pre = btn.parentNode.querySelector("pre");
-          var text = pre ? pre.textContent : "";
-          function done() {
-            btn.textContent = "Copied";
-            setTimeout(function () { btn.textContent = "Copy"; }, 1600);
-          }
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(done, done);
-          } else {
-            var ta = document.createElement("textarea");
-            ta.value = text;
-            document.body.appendChild(ta);
-            ta.select();
-            try { document.execCommand("copy"); } catch (e) { /* noop */ }
-            document.body.removeChild(ta);
-            done();
-          }
-        });
-      }
     </script>
   </body>
 </html>
