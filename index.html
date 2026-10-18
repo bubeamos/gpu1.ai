@@ -150,10 +150,10 @@
       .term-foot { padding: 10px 16px 14px; font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--term-muted); border-top: 1px solid var(--term-line); }
       @media (max-width: 560px) {
         .term-body { font-size: 12px; padding: 12px 12px 8px; }
-        .term-row { flex-wrap: wrap; row-gap: 0; }
-        .term-row .g { min-width: 76px; }
+        .term-row { flex-wrap: wrap; row-gap: 2px; padding: 7px 0; }
+        .term-row .g { min-width: 0; }
         .term-row .dots { display: none; }
-        .term-row .p { order: 3; flex: 0 0 100%; padding-left: 86px; font-size: 11.5px; }
+        .term-row .p { order: 3; flex: 0 0 100%; padding-left: 0; font-size: 11.5px; }
         .term-row .best { margin-left: auto; }
       }
 
@@ -294,6 +294,7 @@
       footer { margin-top: 60px; border-top: 1px solid var(--line); padding: 26px 0 40px; color: var(--faint); font-size: 13.5px; }
       footer .f-in { display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: space-between; }
       footer a { color: var(--muted); }
+      .affiliate-note { margin-top: 10px; }
     </style>
   </head>
   <body>
@@ -480,6 +481,7 @@
         <span><b style="color:var(--ink)">gpu1.ai</b> — built by Bube Amos · <a href="https://x.com/bubeamos" target="_blank" rel="noopener">@bubeamos</a> · <a href="https://www.instagram.com/bube.builds" target="_blank" rel="noopener">@bube.builds</a></span>
         <span>Data: <a href="https://vast.ai/developers/api" target="_blank" rel="noopener">Vast.ai API</a> · <a href="https://www.runpod.io/pricing" target="_blank" rel="noopener">RunPod pricing</a> · <span id="foot-snap"></span></span>
       </div>
+      <div class="wrap affiliate-note">Rent links are affiliate links — gpu1.ai may earn a commission at no extra cost to you.</div>
     </footer>
 
     <script>
