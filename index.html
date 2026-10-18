@@ -290,17 +290,6 @@
       .roadmap { margin-top: 14px; font-size: 14px; color: var(--muted); background: var(--panel); border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 14px 18px; }
       .roadmap b { color: var(--ink); }
 
-      /* ---------- math box ---------- */
-      .math-box {
-        background: var(--term-bg); color: var(--term-ink); border-radius: 12px; padding: 22px;
-        font-family: "JetBrains Mono", monospace; font-size: 14px; border: 1px solid var(--term-line);
-        overflow-x: auto;
-      }
-      .math-box .line { padding: 4px 0; white-space: nowrap; }
-      @media (max-width: 640px) { .math-box .line { white-space: normal; } }
-      .math-box .c { color: var(--term-muted); }
-      .math-box .r { color: var(--term-accent); font-weight: 700; }
-
       /* ---------- price refresh ---------- */
       .arch { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; margin-bottom: 26px; }
       .arch .node {
@@ -336,7 +325,7 @@
           <a href="#providers">Providers</a>
           <a href="#refresh">Price refresh</a>
         </nav>
-        <span class="snap-pill"><span class="pulse"></span><span id="snap-pill-text">Snapshot · Oct 18, 2026 · 3:52 PM EDT</span><span class="pill-short">Oct 18 · 3:52 PM EDT</span></span>
+        <span class="snap-pill"><span class="pulse"></span><span id="snap-pill-text">Snapshot · Oct 18, 2026 · 3:52 PM EDT</span><span class="pill-short" id="pill-short">Oct 18 · 3:52 PM EDT</span></span>
       </div>
     </header>
 
@@ -351,10 +340,10 @@
               <a class="btn btn-ghost" href="#refresh">How prices refresh</a>
             </div>
             <div class="stat-row">
-              <div class="stat"><b>13</b><span>GPUs tracked</span></div>
-              <div class="stat"><b>342</b><span>Vast.ai offers sampled</span></div>
+              <div class="stat"><b id="stat-gpus">13</b><span>GPUs tracked</span></div>
+              <div class="stat"><b id="stat-offers">342</b><span>Vast.ai offers sampled</span></div>
               <div class="stat"><b>2</b><span>Providers compared</span></div>
-              <div class="stat"><b>$0.12</b><span>Cheapest GPU/hr</span></div>
+              <div class="stat"><b id="stat-cheapest">$0.12</b><span>Cheapest GPU/hr</span></div>
             </div>
           </div>
           <div class="term" aria-label="Cheapest price per GPU at snapshot time">
@@ -373,7 +362,7 @@
       <section class="wrap" id="cheapest">
         <div class="sec-head">
           <h2>Cheapest right now</h2>
-          <p>The four GPUs people ask about most, at the snapshot below. Marketplace prices move constantly — how this page keeps its numbers fresh is explained further down.</p>
+          <p>The four GPUs people ask about most, at the prices below. Marketplace prices move constantly — how this page keeps its numbers fresh is explained further down.</p>
         </div>
         <div class="cards" id="cheapest-cards"></div>
       </section>
@@ -439,7 +428,7 @@
       <section class="wrap" id="calculator">
         <div class="sec-head">
           <h2>What will your run cost?</h2>
-          <p>Pick a workload — or dial in your own GPU, count, and hours — and see the bill on each provider at snapshot prices. Then check the rent-vs-buy line before you reach for a credit card.</p>
+          <p>Pick a workload — or dial in your own GPU, count, and hours — and see the bill on each provider at the prices above. Then check the rent-vs-buy line before you reach for a credit card.</p>
         </div>
         <div class="presets" id="presets"></div>
         <div class="calc-grid">
@@ -467,7 +456,7 @@
           <div class="calc-panel">
             <h3>The bill</h3>
             <div id="cost-rows"></div>
-            <p class="table-note" style="margin-top:14px">Best case = the cheapest single offer at snapshot; it may be gone by the time you click. Typical = median of live offers — the safer planning number. Storage, egress, and your own time aren't included, because they're never included in anyone's headline price either.</p>
+            <p class="table-note" style="margin-top:14px">Best case = the cheapest single offer in the current data; it may be gone by the time you click. Typical = median of live offers — the safer planning number. Storage, egress, and your own time aren't included, because they're never included in anyone's headline price either.</p>
           </div>
         </div>
       </section>
@@ -493,7 +482,7 @@
             <h3>RunPod</h3>
             <p class="tagline">A managed GPU cloud — Secure Cloud datacenters plus a Community Cloud.</p>
             <ul>
-              <li><b>Predictable availability.</b> A fixed rate card instead of a bidding war; an H100 SXM is $2.69/hr at snapshot.</li>
+              <li><b>Predictable availability.</b> A fixed rate card instead of a bidding war; an H100 SXM is $2.69/hr as listed above.</li>
               <li><b>Per-second billing</b> on pods, one-click templates, persistent volumes.</li>
               <li><b>Best for:</b> inference servers and long-running pods where “is it still up?” matters more than the last 20 cents.</li>
             </ul>
@@ -502,20 +491,6 @@
           </article>
         </div>
         <p class="roadmap"><b>On the roadmap:</b> Lambda, CoreWeave, Vultr, and DigitalOcean rate cards join as curated rows next. Fixed-price clouds don't expose live-offer APIs the way a marketplace does, so their published rates get verified by hand before they enter the table.</p>
-      </section>
-
-      <section class="wrap" id="model">
-        <div class="sec-head">
-          <h2>How this site makes money</h2>
-          <p>No ads-first nonsense, no selling data. One engine: affiliate revenue from people who were going to rent a GPU anyway and found a cheaper one here.</p>
-        </div>
-        <div class="math-box" aria-label="Illustrative affiliate math">
-          <div class="line"><span class="c"># Illustrative — assumptions stated, not a promise</span></div>
-          <div class="line">100 active referred users × $1,000/mo GPU spend = $100,000/mo flowing through the links</div>
-          <div class="line">× 3% lifetime affiliate cut (Vast.ai) → <span class="r">$3,000/mo, recurring</span></div>
-          <div class="line"><span class="c"># Referrals stack: every month's new users add to every previous month's base.</span></div>
-          <div class="line"><span class="c"># Later layers: sponsored placements (month 6+), a pricing-data API (year 2).</span></div>
-        </div>
       </section>
 
       <section class="wrap" id="refresh">
@@ -536,7 +511,7 @@
 
         <div class="refresh-notes">
           <p><b>The cycle:</b> every hour, at 17 minutes past, a GitHub Actions cron runs <code class="inline">scripts/fetch_prices.py</code> in the repo. It queries Vast.ai's public offers endpoint and RunPod's public pricing endpoint, divides multi-GPU rig prices down to a per-GPU hourly rate, and writes the result to <code class="inline">prices.json</code>. The Action commits that file to <code class="inline">main</code>, and Cloudflare Pages redeploys on every push — so new prices go live within about a minute of the fetch, with no manual step and no server to babysit.</p>
-          <p><b>Where it stands:</b> that cycle runs only once two files live in the repo — <code class="inline">scripts/fetch_prices.py</code> and the workflow <code class="inline">.github/workflows/prices.yml</code>. Until they're added, the site serves the snapshot baked into the page itself, and the timestamp in the top bar always tells you exactly which snapshot you're looking at.</p>
+          <p><b>Where it stands:</b> both files are live in the repo — <code class="inline">scripts/fetch_prices.py</code> and the workflow <code class="inline">.github/workflows/refresh-prices.yml</code> — so the hourly cycle is running. If a fetch ever fails or the file can't be loaded, the page falls back to the snapshot baked into the page itself, and the pill in the top bar always tells you exactly which set of prices you're looking at: “Live” with the fetch time, or “Snapshot” with the baked-in one.</p>
           <p><b>What you see:</b> with the bot on, loading gpu1.ai fetches <code class="inline">prices.json</code> and renders the tables from it. If the file can't be loaded, the page falls back to its baked-in snapshot, so it never renders empty.</p>
           <p><b>Sooner than the hour?</b> Once the workflow is in the repo it can also be triggered by hand from the Actions tab — or run the fetch script locally and push; the next deploy picks it up either way.</p>
         </div>
@@ -548,7 +523,7 @@
         </div>
         <div class="disclosure">
           <p><b>The short version:</b> links to Vast.ai and RunPod on this page are affiliate/referral links. If you rent a GPU through one, the provider pays gpu1.ai a cut — <b>3% of your spend on Vast.ai, for the life of your account</b>; on RunPod, referral credits today and a 12% cash tier after 25 paying referrals. Your price is exactly the same as going direct — and on RunPod you get a $5–$500 credit bonus for coming through the link.</p>
-          <p><b>About the prices:</b> every figure on this page was pulled from the providers' own public APIs (Vast.ai marketplace offers and RunPod's pricing endpoint) at the snapshot time shown — nothing is hand-typed and nothing is sponsored. Marketplace prices are live inventory: the cheapest offer can be rented by someone else a minute later, which is why the table shows medians alongside minimums. Sponsored placements, if they ever appear, will be labeled as such and will never change a price in the table.</p>
+          <p><b>About the prices:</b> every figure on this page was pulled from the providers' own public APIs (Vast.ai marketplace offers and RunPod's pricing endpoint) at the time shown in the top bar — nothing is hand-typed and nothing is sponsored. Marketplace prices are live inventory: the cheapest offer can be rented by someone else a minute later, which is why the table shows medians alongside minimums. Sponsored placements, if they ever appear, will be labeled as such and will never change a price in the table.</p>
         </div>
       </section>
     </main>
@@ -594,14 +569,35 @@
         return e;
       }
 
-      /* ---------- snapshot labels ---------- */
-      $("snap-pill-text").textContent = "Snapshot · Oct 18, 2026 · 3:52 PM EDT";
-      $("term-foot").textContent = "pulled " + SNAPSHOT_UTC + " · sources: Vast.ai offers API, RunPod pricing API · per-GPU normalized";
-      $("foot-snap").textContent = "Snapshot: " + SNAPSHOT_LABEL;
+      /* ---------- data-as-of labels ---------- */
+      var AS_OF_ISO = "2026-10-18T19:52:00Z";
+      var AS_OF_PREFIX = "Snapshot";
+      var PILL_LABEL = "Snapshot · Oct 18, 2026 · 3:52 PM EDT";
+      var PILL_SHORT = "Oct 18 · 3:52 PM EDT";
+      function applyLabels() {
+        $("snap-pill-text").textContent = PILL_LABEL;
+        $("pill-short").textContent = PILL_SHORT;
+        $("term-foot").textContent = "pulled " + SNAPSHOT_UTC + " · sources: Vast.ai offers API, RunPod pricing API · per-GPU normalized";
+        $("foot-snap").textContent = AS_OF_PREFIX + ": " + SNAPSHOT_LABEL;
+      }
+      function updateStats() {
+        var offers = 0, cheapest = Infinity;
+        ROWS.forEach(function (r) {
+          offers += r.vastOffers || 0;
+          var b = bestOf(r).price;
+          if (b < cheapest) cheapest = b;
+        });
+        var g = $("stat-gpus"); if (g) g.textContent = ROWS.length;
+        var o = $("stat-offers"); if (o) o.textContent = offers;
+        var c = $("stat-cheapest"); if (c && isFinite(cheapest)) c.textContent = "$" + cheapest.toFixed(2);
+      }
+      applyLabels();
+      updateStats();
 
       /* ---------- terminal board ---------- */
-      (function () {
+      function renderBoard() {
         var board = $("term-board");
+        board.innerHTML = "";
         var order = ["H100 SXM", "A100 80GB", "RTX 5090", "RTX 4090", "RTX 3090", "L40S", "B200"];
         order.forEach(function (name) {
           var r = null;
@@ -624,11 +620,13 @@
           row.appendChild(el("span", "best", "→ " + fmt(b.price) + " " + b.prov));
           board.appendChild(row);
         });
-      })();
+      }
+      renderBoard();
 
       /* ---------- cheapest cards ---------- */
-      (function () {
+      function renderCheapest() {
         var wrap = $("cheapest-cards");
+        wrap.innerHTML = "";
         ["H100 SXM", "A100 80GB", "RTX 4090", "RTX 3090"].forEach(function (name) {
           var r = null;
           ROWS.forEach(function (x) { if (x.gpu === name) r = x; });
@@ -660,7 +658,8 @@
           card.appendChild(a);
           wrap.appendChild(card);
         });
-      })();
+      }
+      renderCheapest();
 
       /* ---------- comparison table ---------- */
       function renderPrices() {
@@ -723,8 +722,8 @@
         });
         var vastWins = ROWS.filter(function (r) { return bestOf(r).prov === "Vast.ai"; }).length;
         $("price-note").textContent =
-          "Snapshot: " + SNAPSHOT_LABEL + " (" + SNAPSHOT_UTC + "). Vast.ai wins " + vastWins + " of " +
-          ROWS.length + " rows at snapshot; RunPod's fixed rates win the rest — mostly where the marketplace is thin. " +
+          AS_OF_PREFIX + ": " + SNAPSHOT_LABEL + " (" + SNAPSHOT_UTC + "). Vast.ai wins " + vastWins + " of " +
+          ROWS.length + " rows right now; RunPod's fixed rates win the rest — mostly where the marketplace is thin. " +
           "Multi-GPU machines are normalized to a per-GPU price. Always confirm the live price at checkout.";
       }
       ["gpu-search", "vram-filter", "sort-sel"].forEach(function (id) {
@@ -786,7 +785,7 @@
         var r = null;
         ROWS.forEach(function (x) { if (x.gpu === activeGpu) r = x; });
         var note = "Top " + (TOPS[activeGpu] || []).length + " cheapest per-GPU offers for the " + activeGpu +
-          " on Vast.ai at snapshot (" + SNAPSHOT_LABEL + ").";
+          " on Vast.ai, as of " + SNAPSHOT_LABEL + ".";
         if (r && r.vastReliable != null) {
           note += " Reliable floor (hosts rated 98%+): " + fmt(r.vastReliable) + "/GPU/hr" +
             (r.vastReliable > r.vastMin ? " — you pay " + fmt(r.vastReliable - r.vastMin) + " more for a proven host." : " — the cheapest offer is already on a top-rated host.");
@@ -811,13 +810,20 @@
       }
       var calcCount = 1;
       var gpuSel = $("calc-gpu");
-      ROWS.forEach(function (r) {
-        var o = document.createElement("option");
-        o.value = r.gpu;
-        o.textContent = r.gpu + " · " + r.vram + " GB";
-        gpuSel.appendChild(o);
-      });
-      gpuSel.value = "RTX 4090";
+      function buildCalcOptions(keep) {
+        var prev = keep || gpuSel.value || "RTX 4090";
+        gpuSel.innerHTML = "";
+        ROWS.forEach(function (r) {
+          var o = document.createElement("option");
+          o.value = r.gpu;
+          o.textContent = r.gpu + " · " + r.vram + " GB";
+          gpuSel.appendChild(o);
+        });
+        var ok = false;
+        ROWS.forEach(function (r) { if (r.gpu === prev) ok = true; });
+        gpuSel.value = ok ? prev : (ROWS.length ? ROWS[0].gpu : prev);
+      }
+      buildCalcOptions("RTX 4090");
 
       var PRESETS = [
         { label: "Fine-tune Llama 3 8B (LoRA)", gpu: "RTX 4090", n: 1, h: 6 },
@@ -917,6 +923,73 @@
         }
       }
       renderCalc();
+
+      /* ---------- live prices.json (rewritten hourly by the repo's GitHub Action) ---------- */
+      function fmtAsOf(d) {
+        var parts = {};
+        try {
+          new Intl.DateTimeFormat("en-US", {
+            timeZone: "America/Toronto", weekday: "short", month: "short", day: "numeric",
+            year: "numeric", hour: "numeric", minute: "2-digit", hour12: true, timeZoneName: "short"
+          }).formatToParts(d).forEach(function (p) { parts[p.type] = p.value; });
+          if (!parts.month || !parts.hour) return null;
+          return {
+            long: parts.weekday + ", " + parts.month + " " + parts.day + ", " + parts.year + " · " +
+              parts.hour + ":" + parts.minute + " " + parts.dayPeriod + " " + parts.timeZoneName,
+            pill: parts.month + " " + parts.day + ", " + parts.year + " · " +
+              parts.hour + ":" + parts.minute + " " + parts.dayPeriod + " " + parts.timeZoneName,
+            short: parts.month + " " + parts.day + " · " + parts.hour + ":" + parts.minute + " " + parts.dayPeriod
+          };
+        } catch (e) { return null; }
+      }
+      function utcStamp(d) {
+        function p2(n) { return (n < 10 ? "0" : "") + n; }
+        return d.getUTCFullYear() + "-" + p2(d.getUTCMonth() + 1) + "-" + p2(d.getUTCDate()) +
+          " " + p2(d.getUTCHours()) + ":" + p2(d.getUTCMinutes()) + " UTC";
+      }
+      (function loadLivePrices() {
+        if (typeof fetch !== "function") return;
+        fetch("prices.json", { cache: "no-store" }).then(function (res) {
+          if (!res.ok) throw new Error("prices.json unavailable");
+          return res.json();
+        }).then(function (d) {
+          if (!d || !Array.isArray(d.rows) || !d.rows.length || !d.tops || typeof d.tops !== "object") return;
+          var ok = true;
+          d.rows.forEach(function (r) {
+            if (!r || typeof r.gpu !== "string" || typeof r.vastMin !== "number" || typeof r.vastMedian !== "number") ok = false;
+          });
+          if (!ok) return;
+          var when = d.fetchedAt ? new Date(d.fetchedAt) : null;
+          if (!when || isNaN(when.getTime())) return;
+          if (when.getTime() <= new Date(AS_OF_ISO).getTime()) return; /* not fresher than the baked snapshot */
+          var f = fmtAsOf(when);
+          if (f) {
+            SNAPSHOT_LABEL = f.long;
+            SNAPSHOT_UTC = utcStamp(when);
+            PILL_LABEL = "Live · " + f.pill;
+            PILL_SHORT = f.short;
+          }
+          AS_OF_ISO = when.toISOString();
+          AS_OF_PREFIX = "Live prices";
+          ROWS = d.rows;
+          TOPS = d.tops;
+          if (!TOPS[activeGpu]) {
+            for (var i = 0; i < TAB_GPUS.length; i++) {
+              if (TOPS[TAB_GPUS[i]]) { activeGpu = TAB_GPUS[i]; break; }
+            }
+          }
+          applyLabels();
+          updateStats();
+          renderBoard();
+          renderCheapest();
+          renderPrices();
+          renderTabs();
+          renderOffers();
+          buildCalcOptions();
+          buyFor = null;
+          renderCalc();
+        }).catch(function () { /* no fresh file — the baked-in snapshot stays on screen */ });
+      })();
     </script>
   </body>
 </html>
