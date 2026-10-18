@@ -1,4 +1,4 @@
-# gpu1.ai
+## gpu1.ai
 
 GPU cloud price comparison for AI builders — live Vast.ai + RunPod pricing,
 cheapest-right-now cards, run-cost calculator, and provider guides.
