@@ -1,24 +1,24 @@
 {
- "fetchedAt": "2026-11-01T07:34:13Z",
+ "fetchedAt": "2026-11-01T15:11:33Z",
  "rows": [
   {
    "gpu": "B200",
    "vram": 180,
-   "vastMin": 6.252,
-   "vastMedian": 9.371,
-   "vastSingle": 6.252,
-   "vastOffers": 12,
+   "vastMin": 7.502,
+   "vastMedian": 10.001,
+   "vastSingle": 7.502,
+   "vastOffers": 3,
    "vastLoc": "Oregon, US",
-   "vastReliable": 8.75,
+   "vastReliable": 10.001,
    "runpod": 5.98
   },
   {
    "gpu": "H200",
    "vram": 141,
    "vastMin": 2.763,
-   "vastMedian": 4.475,
-   "vastSingle": 2.763,
-   "vastOffers": 11,
+   "vastMedian": 4.343,
+   "vastSingle": 4.607,
+   "vastOffers": 12,
    "vastLoc": "Japan, JP",
    "vastReliable": 2.763,
    "runpod": 3.59
@@ -26,21 +26,21 @@
   {
    "gpu": "H100 SXM",
    "vram": 80,
-   "vastMin": 1.788,
+   "vastMin": 1.934,
    "vastMedian": 2.401,
    "vastSingle": 1.934,
-   "vastOffers": 25,
-   "vastLoc": "Thailand, TH",
-   "vastReliable": 1.788,
+   "vastOffers": 21,
+   "vastLoc": "India, IN",
+   "vastReliable": 1.934,
    "runpod": 2.69
   },
   {
    "gpu": "A100 80GB",
    "vram": 80,
    "vastMin": 0.601,
-   "vastMedian": 1.169,
+   "vastMedian": 1.337,
    "vastSingle": 0.602,
-   "vastOffers": 22,
+   "vastOffers": 19,
    "vastLoc": "United Arab Emirates, AE",
    "vastReliable": 0.601,
    "runpod": 1.39
@@ -49,9 +49,9 @@
    "gpu": "A100 40GB",
    "vram": 40,
    "vastMin": 0.4,
-   "vastMedian": 0.71,
+   "vastMedian": 0.723,
    "vastSingle": 0.402,
-   "vastOffers": 26,
+   "vastOffers": 19,
    "vastLoc": "California, US",
    "vastReliable": 0.404,
    "runpod": null
@@ -59,12 +59,12 @@
   {
    "gpu": "RTX 5090",
    "vram": 32,
-   "vastMin": 0.441,
+   "vastMin": 0.401,
    "vastMedian": 0.601,
-   "vastSingle": 0.442,
+   "vastSingle": 0.401,
    "vastOffers": 64,
-   "vastLoc": "Slovakia, SK",
-   "vastReliable": 0.456,
+   "vastLoc": "California, US",
+   "vastReliable": 0.401,
    "runpod": 0.69
   },
   {
@@ -73,49 +73,49 @@
    "vastMin": 0.336,
    "vastMedian": 0.8,
    "vastSingle": 0.336,
-   "vastOffers": 35,
+   "vastOffers": 32,
    "vastLoc": "Virginia, US",
-   "vastReliable": 0.417,
-   "runpod": 0.79
+   "vastReliable": 0.336,
+   "runpod": null
   },
   {
    "gpu": "RTX A6000",
    "vram": 48,
-   "vastMin": 0.361,
-   "vastMedian": 0.43,
-   "vastSingle": 0.363,
-   "vastOffers": 15,
-   "vastLoc": "Italy, IT",
-   "vastReliable": 0.361,
+   "vastMin": 0.374,
+   "vastMedian": 0.455,
+   "vastSingle": 0.376,
+   "vastOffers": 19,
+   "vastLoc": "Florida, US",
+   "vastReliable": 0.404,
    "runpod": null
   },
   {
    "gpu": "A40",
    "vram": 48,
-   "vastMin": 0.536,
-   "vastMedian": 0.614,
-   "vastSingle": 0.536,
-   "vastOffers": 11,
-   "vastLoc": "Belgium, BE",
-   "vastReliable": 0.536,
-   "runpod": 0.35
+   "vastMin": 0.481,
+   "vastMedian": 0.654,
+   "vastSingle": 0.481,
+   "vastOffers": 10,
+   "vastLoc": "Indiana, US",
+   "vastReliable": 0.481,
+   "runpod": null
   },
   {
    "gpu": "RTX 4090",
    "vram": 24,
-   "vastMin": 0.301,
-   "vastMedian": 0.458,
-   "vastSingle": 0.301,
+   "vastMin": 0.268,
+   "vastMedian": 0.468,
+   "vastSingle": 0.269,
    "vastOffers": 64,
-   "vastLoc": "Virginia, US",
-   "vastReliable": 0.301,
-   "runpod": 0.34
+   "vastLoc": "Romania, RO",
+   "vastReliable": 0.298,
+   "runpod": null
   },
   {
    "gpu": "RTX 3090 Ti",
    "vram": 24,
    "vastMin": 0.136,
-   "vastMedian": 0.262,
+   "vastMedian": 0.268,
    "vastSingle": 0.136,
    "vastOffers": 14,
    "vastLoc": "Quebec, CA",
@@ -125,12 +125,12 @@
   {
    "gpu": "RTX 3090",
    "vram": 24,
-   "vastMin": 0.108,
-   "vastMedian": 0.167,
-   "vastSingle": 0.109,
+   "vastMin": 0.107,
+   "vastMedian": 0.195,
+   "vastSingle": 0.107,
    "vastOffers": 64,
-   "vastLoc": "Brazil, BR",
-   "vastReliable": 0.111,
+   "vastLoc": "Australia, AU",
+   "vastReliable": 0.107,
    "runpod": null
   },
   {
@@ -139,26 +139,14 @@
    "vastMin": 0.101,
    "vastMedian": 0.496,
    "vastSingle": 0.101,
-   "vastOffers": 17,
+   "vastOffers": 19,
    "vastLoc": "Japan, JP",
    "vastReliable": 0.104,
-   "runpod": 0.44
+   "runpod": null
   }
  ],
  "tops": {
   "H100 SXM": [
-   {
-    "ppg": 1.788,
-    "total": 3.576,
-    "n": 2,
-    "loc": "Thailand, TH",
-    "rel": 0.99,
-    "cpu": "AMD EPYC 9124 16-Core Processor",
-    "ram": 257840,
-    "disk": 63.0,
-    "down": 7558.0,
-    "up": 6221.9
-   },
    {
     "ppg": 1.934,
     "total": 1.934,
@@ -167,7 +155,7 @@
     "rel": 0.994,
     "cpu": "AMD EPYC 9654 96-Core Processor",
     "ram": 290245,
-    "disk": 308.2,
+    "disk": 308.9,
     "down": 168.4,
     "up": 89.2
    },
@@ -178,70 +166,82 @@
     "loc": "Germany, DE",
     "rel": 0.997,
     "cpu": "AMD EPYC 9454 48-Core Processor",
-    "ram": 188622,
-    "disk": 440.0,
-    "down": 522.3,
-    "up": 481.6
+    "ram": 94218,
+    "disk": 190.0,
+    "down": 640.8,
+    "up": 659.8
    },
    {
-    "ppg": 2.4,
-    "total": 19.201,
-    "n": 8,
-    "loc": "Japan, JP",
-    "rel": 0.928,
-    "cpu": "Xeon\u00ae Platinum 8480+",
-    "ram": 2063854,
-    "disk": 8379.9,
-    "down": 3277.4,
-    "up": 707.5
-   },
-   {
-    "ppg": 2.4,
-    "total": 19.201,
-    "n": 8,
-    "loc": "Japan, JP",
+    "ppg": 2.136,
+    "total": 2.136,
+    "n": 1,
+    "loc": "Germany, DE",
     "rel": 0.989,
+    "cpu": "AMD EPYC 9454 48-Core Processor",
+    "ram": 125718,
+    "disk": 510.0,
+    "down": 490.4,
+    "up": 446.4
+   },
+   {
+    "ppg": 2.202,
+    "total": 2.202,
+    "n": 1,
+    "loc": "Idaho, US",
+    "rel": 0.971,
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "ram": 773320,
+    "disk": 25480.0,
+    "down": 856.9,
+    "up": 882.5
+   },
+   {
+    "ppg": 2.4,
+    "total": 19.201,
+    "n": 8,
+    "loc": "Japan, JP",
+    "rel": 0.99,
+    "cpu": "Xeon\u00ae Platinum 8480+",
+    "ram": 2063702,
+    "disk": 5886.8,
+    "down": 4642.4,
+    "up": 82.3
+   },
+   {
+    "ppg": 2.4,
+    "total": 19.201,
+    "n": 8,
+    "loc": "Japan, JP",
+    "rel": 0.988,
     "cpu": "Xeon\u00ae Platinum 8480+",
     "ram": 2063706,
-    "disk": 6024.0,
-    "down": 2150.3,
-    "up": 99.0
+    "disk": 6253.0,
+    "down": 637.3,
+    "up": 61.0
    },
    {
     "ppg": 2.4,
     "total": 9.601,
     "n": 4,
     "loc": "Japan, JP",
-    "rel": 0.928,
-    "cpu": "Xeon\u00ae Platinum 8480+",
-    "ram": 1031927,
-    "disk": 4189.9,
-    "down": 3277.4,
-    "up": 707.5
-   },
-   {
-    "ppg": 2.4,
-    "total": 9.601,
-    "n": 4,
-    "loc": "Japan, JP",
-    "rel": 0.989,
+    "rel": 0.99,
     "cpu": "Xeon\u00ae Platinum 8480+",
     "ram": 1031851,
-    "disk": 2843.4,
-    "down": 4485.5,
-    "up": 86.1
+    "disk": 2943.4,
+    "down": 4642.4,
+    "up": 82.3
    },
    {
     "ppg": 2.4,
     "total": 9.601,
     "n": 4,
     "loc": "Japan, JP",
-    "rel": 0.989,
+    "rel": 0.988,
     "cpu": "Xeon\u00ae Platinum 8480+",
     "ram": 1031853,
-    "disk": 3012.0,
-    "down": 2150.3,
-    "up": 99.0
+    "disk": 3126.5,
+    "down": 637.3,
+    "up": 61.0
    }
   ],
   "A100 80GB": [
@@ -289,21 +289,21 @@
     "rel": 0.994,
     "cpu": "Xeon\u00ae Gold 5118 ",
     "ram": 257578,
-    "disk": 606.9,
+    "disk": 356.9,
     "down": 169.2,
     "up": 303.7
    },
    {
-    "ppg": 0.949,
-    "total": 0.949,
+    "ppg": 0.989,
+    "total": 0.989,
     "n": 1,
-    "loc": "France, FR",
-    "rel": 0.992,
+    "loc": "United Arab Emirates, AE",
+    "rel": 0.997,
     "cpu": "AMD EPYC 7742 64-Core Processor",
     "ram": 128949,
-    "disk": 97.2,
-    "down": 806.8,
-    "up": 922.4
+    "disk": 177.5,
+    "down": 870.6,
+    "up": 377.8
    },
    {
     "ppg": 1.067,
@@ -313,36 +313,60 @@
     "rel": 0.999,
     "cpu": "AMD EPYC 7742 64-Core Processor",
     "ram": 1032004,
-    "disk": 93.4,
+    "disk": 109.4,
     "down": 636.6,
     "up": 322.8
    },
    {
-    "ppg": 1.069,
-    "total": 1.069,
+    "ppg": 1.083,
+    "total": 1.083,
     "n": 1,
-    "loc": "Poland, PL",
-    "rel": 0.995,
-    "cpu": "AMD EPYC 7532 32-Core Processor",
-    "ram": 128948,
-    "disk": 1176.2,
-    "down": 919.3,
-    "up": 913.6
+    "loc": "Czechia, CZ",
+    "rel": 0.99,
+    "cpu": "AMD EPYC 7513 32-Core Processor",
+    "ram": 128886,
+    "disk": 1331.9,
+    "down": 1122.0,
+    "up": 1823.5
    },
    {
-    "ppg": 1.083,
-    "total": 2.166,
+    "ppg": 1.149,
+    "total": 2.297,
     "n": 2,
-    "loc": "Texas, US",
-    "rel": 0.998,
-    "cpu": "AMD EPYC 7V12 64-Core Processor",
-    "ram": 257960,
-    "disk": 1019.2,
-    "down": 8020.0,
-    "up": 9183.9
+    "loc": "Japan, JP",
+    "rel": 0.996,
+    "cpu": "AMD EPYC 7713 64-Core Processor",
+    "ram": 512996,
+    "disk": 2149.5,
+    "down": 1823.4,
+    "up": 310.1
    }
   ],
   "RTX 5090": [
+   {
+    "ppg": 0.401,
+    "total": 0.401,
+    "n": 1,
+    "loc": "California, US",
+    "rel": 0.993,
+    "cpu": "ore Processor (Broadwell, IBRS)",
+    "ram": 84455,
+    "disk": 21.0,
+    "down": 738.5,
+    "up": 716.4
+   },
+   {
+    "ppg": 0.441,
+    "total": 1.762,
+    "n": 4,
+    "loc": "Slovakia, SK",
+    "rel": 0.974,
+    "cpu": "AMD Ryzen Threadripper PRO 9975WX 32-Cores",
+    "ram": 63629,
+    "disk": 3894.0,
+    "down": 672.5,
+    "up": 276.3
+   },
    {
     "ppg": 0.441,
     "total": 0.882,
@@ -351,9 +375,21 @@
     "rel": 0.974,
     "cpu": "AMD Ryzen Threadripper PRO 9975WX 32-Cores",
     "ram": 31814,
-    "disk": 1954.0,
+    "disk": 1947.0,
     "down": 672.5,
     "up": 276.3
+   },
+   {
+    "ppg": 0.442,
+    "total": 0.442,
+    "n": 1,
+    "loc": "Slovakia, SK",
+    "rel": 0.994,
+    "cpu": "AMD Ryzen Threadripper PRO 9955WX 16-Cores",
+    "ram": 10478,
+    "disk": 1046.7,
+    "down": 795.7,
+    "up": 278.0
    },
    {
     "ppg": 0.442,
@@ -363,21 +399,9 @@
     "rel": 0.974,
     "cpu": "AMD Ryzen Threadripper PRO 9975WX 32-Cores",
     "ram": 15907,
-    "disk": 977.0,
+    "disk": 973.5,
     "down": 672.5,
     "up": 276.3
-   },
-   {
-    "ppg": 0.456,
-    "total": 0.456,
-    "n": 1,
-    "loc": "Slovakia, SK",
-    "rel": 0.992,
-    "cpu": "AMD Ryzen Threadripper PRO 9955WX 16-Cores",
-    "ram": 7859,
-    "disk": 887.8,
-    "down": 703.9,
-    "up": 277.7
    },
    {
     "ppg": 0.458,
@@ -387,7 +411,7 @@
     "rel": 0.997,
     "cpu": "AMD EPYC 7K62 48-Core Processor",
     "ram": 64320,
-    "disk": 1194.0,
+    "disk": 1189.5,
     "down": 178.9,
     "up": 216.1
    },
@@ -399,45 +423,21 @@
     "rel": 0.997,
     "cpu": "AMD EPYC 7K62 48-Core Processor",
     "ram": 32160,
-    "disk": 597.0,
+    "disk": 594.8,
     "down": 178.9,
     "up": 216.1
    },
    {
-    "ppg": 0.469,
-    "total": 0.469,
+    "ppg": 0.463,
+    "total": 0.463,
     "n": 1,
-    "loc": "Quebec, CA",
-    "rel": 0.99,
-    "cpu": "AMD EPYC 9R14 96-Core Processor",
-    "ram": 64363,
-    "disk": 1388.0,
-    "down": 1203.6,
-    "up": 1366.1
-   },
-   {
-    "ppg": 0.481,
-    "total": 0.961,
-    "n": 2,
-    "loc": "California, US",
-    "rel": 0.993,
-    "cpu": "AMD EPYC 7B12 64-Core Processor",
-    "ram": 128938,
-    "disk": 670.0,
-    "down": 1450.2,
-    "up": 725.1
-   },
-   {
-    "ppg": 0.497,
-    "total": 0.497,
-    "n": 1,
-    "loc": "South Korea, KR",
-    "rel": 0.998,
-    "cpu": "AMD Ryzen 7 7800X3D 8-Core Processor",
-    "ram": 31195,
-    "disk": 346.2,
-    "down": 540.3,
-    "up": 496.1
+    "loc": "Beijing, CN",
+    "rel": 0.995,
+    "cpu": "AMD EPYC 7K62 48-Core Processor",
+    "ram": 64392,
+    "disk": 712.5,
+    "down": 95.5,
+    "up": 256.8
    }
   ],
   "L40S": [
@@ -446,24 +446,24 @@
     "total": 0.336,
     "n": 1,
     "loc": "Virginia, US",
-    "rel": 0.977,
+    "rel": 0.981,
     "cpu": "AMD EPYC 7R13 Processor",
     "ram": 127096,
-    "disk": 233.1,
+    "disk": 293.1,
     "down": 13453.7,
     "up": 6504.6
    },
    {
-    "ppg": 0.417,
-    "total": 0.417,
+    "ppg": 0.43,
+    "total": 0.43,
     "n": 1,
-    "loc": "Quebec, CA",
-    "rel": 0.984,
-    "cpu": "AMD EPYC 7413 24-Core Processor",
-    "ram": 386801,
-    "disk": 415.0,
-    "down": 842.2,
-    "up": 833.6
+    "loc": "Ontario, CA",
+    "rel": 0.928,
+    "cpu": "eon Processor (SapphireRapids)",
+    "ram": 120892,
+    "disk": 322.0,
+    "down": 460.0,
+    "up": 212.4
    },
    {
     "ppg": 0.467,
@@ -506,24 +506,24 @@
     "total": 1.868,
     "n": 4,
     "loc": "Japan, JP",
-    "rel": 0.994,
-    "cpu": "Xeon\u00ae Gold 6430",
-    "ram": 257778,
-    "disk": 1061.0,
-    "down": 304.2,
-    "up": 523.7
-   },
-   {
-    "ppg": 0.467,
-    "total": 1.868,
-    "n": 4,
-    "loc": "Japan, JP",
     "rel": 0.995,
     "cpu": "Xeon\u00ae Gold 6430",
     "ram": 515557,
     "disk": 3073.0,
     "down": 366.9,
     "up": 419.3
+   },
+   {
+    "ppg": 0.467,
+    "total": 1.868,
+    "n": 4,
+    "loc": "Japan, JP",
+    "rel": 0.994,
+    "cpu": "Xeon\u00ae Gold 6430",
+    "ram": 257778,
+    "disk": 1061.0,
+    "down": 304.2,
+    "up": 523.7
    },
    {
     "ppg": 0.535,
@@ -540,28 +540,64 @@
   ],
   "RTX 4090": [
    {
-    "ppg": 0.301,
-    "total": 0.301,
-    "n": 1,
-    "loc": "Virginia, US",
-    "rel": 0.996,
-    "cpu": "AMD Ryzen 5 7600 6-Core Processor",
-    "ram": 63406,
-    "disk": 398.0,
-    "down": 661.1,
-    "up": 911.6
+    "ppg": 0.268,
+    "total": 0.536,
+    "n": 2,
+    "loc": "Romania, RO",
+    "rel": 0.945,
+    "cpu": "AMD Ryzen Threadripper PRO 3975WX 32-Cores",
+    "ram": 85848,
+    "disk": 506.0,
+    "down": 644.4,
+    "up": 634.0
    },
    {
-    "ppg": 0.344,
-    "total": 0.344,
+    "ppg": 0.269,
+    "total": 0.269,
+    "n": 1,
+    "loc": "Romania, RO",
+    "rel": 0.965,
+    "cpu": "Xeon\u00ae E5-2699 v4 ",
+    "ram": 32190,
+    "disk": 339.0,
+    "down": 692.3,
+    "up": 779.7
+   },
+   {
+    "ppg": 0.298,
+    "total": 0.298,
     "n": 1,
     "loc": "Brazil, BR",
-    "rel": 0.996,
+    "rel": 0.987,
     "cpu": "Xeon\u00ae E5-2695 v4 ",
-    "ram": 64322,
-    "disk": 146.0,
-    "down": 900.7,
-    "up": 406.1
+    "ram": 128658,
+    "disk": 721.0,
+    "down": 924.4,
+    "up": 457.6
+   },
+   {
+    "ppg": 0.308,
+    "total": 0.616,
+    "n": 2,
+    "loc": "Quebec, CA",
+    "rel": 0.995,
+    "cpu": "Xeon\u00ae E5-2699 v3 ",
+    "ram": 128667,
+    "disk": 707.0,
+    "down": 696.4,
+    "up": 874.2
+   },
+   {
+    "ppg": 0.336,
+    "total": 0.336,
+    "n": 1,
+    "loc": "Quebec, CA",
+    "rel": 0.997,
+    "cpu": "AMD Ryzen 9 5900X 12-Core Processor",
+    "ram": 64217,
+    "disk": 1254.0,
+    "down": 1143.9,
+    "up": 1296.4
    },
    {
     "ppg": 0.355,
@@ -571,9 +607,9 @@
     "rel": 0.991,
     "cpu": "AMD EPYC 7532 32-Core Processor",
     "ram": 112661,
-    "disk": 605.5,
-    "down": 838.3,
-    "up": 879.0
+    "disk": 588.0,
+    "down": 838.8,
+    "up": 880.0
    },
    {
     "ppg": 0.361,
@@ -583,7 +619,7 @@
     "rel": 0.986,
     "cpu": "AMD EPYC 7742 64-Core Processor",
     "ram": 128783,
-    "disk": 504.5,
+    "disk": 543.5,
     "down": 912.8,
     "up": 568.2
    },
@@ -595,45 +631,9 @@
     "rel": 0.986,
     "cpu": "AMD EPYC 7742 64-Core Processor",
     "ram": 64391,
-    "disk": 252.2,
+    "disk": 271.8,
     "down": 912.8,
     "up": 568.2
-   },
-   {
-    "ppg": 0.362,
-    "total": 0.362,
-    "n": 1,
-    "loc": "Jiangsu, CN",
-    "rel": 0.994,
-    "cpu": "AMD EPYC 7K62 48-Core Processor",
-    "ram": 32162,
-    "disk": 644.2,
-    "down": 1499.1,
-    "up": 1499.1
-   },
-   {
-    "ppg": 0.374,
-    "total": 0.374,
-    "n": 1,
-    "loc": "Vietnam, VN",
-    "rel": 0.998,
-    "cpu": "AMD EPYC 7K62 48-Core Processor",
-    "ram": 64392,
-    "disk": 1472.2,
-    "down": 812.2,
-    "up": 908.8
-   },
-   {
-    "ppg": 0.374,
-    "total": 0.749,
-    "n": 2,
-    "loc": "Germany, DE",
-    "rel": 0.998,
-    "cpu": "AMD Ryzen Threadripper PRO 3955WX 16-Cores",
-    "ram": 103019,
-    "disk": 1102.8,
-    "down": 545.8,
-    "up": 319.9
    }
   ]
  }
